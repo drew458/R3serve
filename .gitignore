@@ -112,3 +112,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+Resources/Cred.py
+.idea/
+Resources/cookies.pkl
