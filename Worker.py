@@ -3,7 +3,7 @@ import time
 
 import selenium
 
-import ClassNames
+import CourseNames
 
 
 def goToClassReservationList(driver):
@@ -40,13 +40,13 @@ def clickOnClass(driver, selected_class):
 
     # find the row
     try:
-        class_xpath = ClassNames.composeClassXPath(selected_class)
+        class_xpath = CourseNames.composeCourseXPath(selected_class)
         table.find_element_by_xpath(class_xpath).click()
     except IOError:
         print("No such class found!")
         reserve_another = input("Do you want to insert another class? [Y/n]...\n")
         if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
-            another_class_name = ClassNames.insertClass()
+            another_class_name = CourseNames.insertNewCourse()
             reserve(driver, another_class_name)
         else:
             logging.info('Quitting the program...')
@@ -86,7 +86,7 @@ def reserve(driver, selected_class):
             print("No more lessons available for this class!")
             reserve_another = input("Do you want to reserve another class? [Y/n]...\n")
             if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
-                another_class_name = ClassNames.insertClass()
+                another_class_name = CourseNames.insertNewCourse()
                 reserve(driver, another_class_name)
             else:
                 logging.info('Quitting the program...')
