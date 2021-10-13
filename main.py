@@ -8,6 +8,7 @@ import Worker
 
 
 def main():
+
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
     # Perform the log in

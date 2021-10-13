@@ -86,8 +86,11 @@ def reserve(driver, selected_class):
                 another_class_name = ClassNames.insertClass()
                 reserve(driver, another_class_name)
             else:
+                logging.info('Quitting the program...')
                 driver.quit()
+                logging.info('Driver thrown away')
                 quit()
+                logging.info('Addios!')
         else:
             remainingSeatsInt = int(remainingSeatsString)
             if remainingSeatsInt == 0:
@@ -116,8 +119,11 @@ def reserve(driver, selected_class):
                         driver3.find_element_by_xpath("//*[@id='backArrowReservs']").click()
                         continue
                     else:
+                        logging.info('Quitting the program...')
                         driver.quit()
+                        logging.info('Driver thrown away')
                         quit()
+                        logging.info('Addios!')
                 else:
                     print("This reservation overlaps with another one in the same time slot, "
                           "hence it cannot be completed.\n"
