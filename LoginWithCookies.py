@@ -4,7 +4,7 @@ import selenium.common.exceptions
 from selenium import webdriver
 import pickle
 
-import Cred
+import Resources.Cred as Cred
 
 
 def login():

@@ -1,3 +1,4 @@
+import logging
 import time
 
 import selenium
@@ -5,7 +6,9 @@ import selenium
 import ClassNames
 
 
-def goToClassReservatioList(driver):
+def goToClassReservationList(driver):
+    logging.info('Going to the class reservation list...')
+
     try:
         # Click on prenotazione posto in aula, biblioteca, sala studio
         # listPrenotazione = driver.find_element_by_xpath("//*[@id='homeIconList']")
@@ -21,13 +24,17 @@ def goToClassReservatioList(driver):
         driver.find_element_by_xpath(
             "//*[contains(text(), 'Prenota il posto in aula, biblioteca, sala studio')]").click()
         time.sleep(5)
+        logging.info('Landend on the class reservation list!')
     else:
         time.sleep(5)
+        logging.info('Landend on the class reservation list!')
 
     return driver
 
 
 def clickOnClass(driver, selected_class):
+    logging.info('Reaching the inserted class reservation to click on...')
+
     # get the table
     table = driver.find_element_by_xpath("//*[@id='studyPlanBody']")
 
@@ -38,14 +45,18 @@ def clickOnClass(driver, selected_class):
     except IOError:
         print("No such class found!")
         reserve_another = input("Do you want to insert another class? [Y/n]...\n")
-        if reserve_another == "y" or reserve_another == "Y":
+        if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
             another_class_name = ClassNames.insertClass()
             reserve(driver, another_class_name)
         else:
+            logging.info('Quitting the program...')
             driver.quit()
+            logging.info('Driver thrown away')
+            logging.info('The automatic reverse threads will continue to stay up, but it is an Addios for me!')
             quit()
     else:
         time.sleep(3)
+        logging.info('Here it is!')
 
     return driver
 
@@ -55,7 +66,7 @@ def reserve(driver, selected_class):
     time.sleep(3)
 
     # GO TO CLASS RESERVATION LIST
-    driver2 = goToClassReservatioList(driver)
+    driver2 = goToClassReservationList(driver)
 
     # CLICK ON THE CLASS
     driver3 = clickOnClass(driver2, selected_class)
@@ -74,11 +85,14 @@ def reserve(driver, selected_class):
         except selenium.common.exceptions.NoSuchElementException:
             print("No more lessons available for this class!")
             reserve_another = input("Do you want to reserve another class? [Y/n]...\n")
-            if reserve_another == "y" or reserve_another == "Y":
+            if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
                 another_class_name = ClassNames.insertClass()
                 reserve(driver, another_class_name)
             else:
+                logging.info('Quitting the program...')
                 driver.quit()
+                logging.info('Driver thrown away')
+                logging.info('The automatic reverse threads will continue to stay up, but it is an Addios for me!')
                 quit()
         else:
             remainingSeatsInt = int(remainingSeatsString)
@@ -104,11 +118,14 @@ def reserve(driver, selected_class):
                 if driver3.find_element_by_xpath("//h1[contains(text(), 'Dettagli prenotazione')]").is_displayed():
                     reserve_another = input("Done!\n"
                                             "Do you want to reserve another lesson for this class? [Y/n]...\n")
-                    if reserve_another == "y" or reserve_another == "Y":
+                    if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
                         driver3.find_element_by_xpath("//*[@id='backArrowReservs']").click()
                         continue
                     else:
+                        logging.info('Quitting the program...')
                         driver.quit()
+                        logging.info('Driver thrown away')
+                        logging.info('The automatic reverse threads will continue to stay up, but it is an Addios for me!')
                         quit()
                 else:
                     print("This reservation overlaps with another one in the same time slot, "
