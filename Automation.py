@@ -31,8 +31,7 @@ def reserveClass(driver, class_to_reserve):
                 "//*[@id='slotListBody']/tr[" + iString + "]/td[7]").text
         except selenium.common.exceptions.NoSuchElementException:
             print("No more lessons available for this class!")
-            driver.quit()
-            quit()
+            break
         else:
             remainingSeatsInt = int(remainingSeatsString)
             if remainingSeatsInt == 0:
