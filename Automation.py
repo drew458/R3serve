@@ -8,15 +8,15 @@ import Login
 import Worker
 
 
-def reserveClass(driver, class_to_reserve):
+def reserveCourse(driver, course_to_reserve):
     driver.refresh()
     time.sleep(3)
 
-    # GO TO CLASS RESERVATION LIST
-    driver2 = Worker.goToClassReservationList(driver)
+    # GO TO COURSE RESERVATION LIST
+    driver2 = Worker.goToCourseReservationList(driver)
 
-    # CLICK ON THE CLASS
-    driver3 = Worker.clickOnClass(driver2, class_to_reserve)
+    # CLICK ON THE COURSE
+    driver3 = Worker.clickOnCourse(driver2, course_to_reserve)
 
     # CHECK IF SEATS ARE STILL AVAILABLE
     table2 = driver3.find_element_by_xpath("//*[@id='slotListBody']")
@@ -30,7 +30,7 @@ def reserveClass(driver, class_to_reserve):
             remainingSeatsString = table2.find_element_by_xpath(
                 "//*[@id='slotListBody']/tr[" + iString + "]/td[7]").text
         except selenium.common.exceptions.NoSuchElementException:
-            print("No more lessons available for this class!")
+            print("No more lessons available for this course!")
             break
         else:
             remainingSeatsInt = int(remainingSeatsString)
@@ -44,7 +44,7 @@ def reserveClass(driver, class_to_reserve):
                 calendar = driver3.find_element_by_xpath("//*[@id='slotListBody']/tr[" + iString + "]/td[8]")
                 calendarAttribute = calendar.get_attribute("title")
                 if calendarAttribute == "Annulla la prenotazione per questa erogazione ":
-                    print("Class at line " + iString + " already reserved")
+                    print("Course at line " + iString + " already reserved")
                     continue
                 else:
                     calendar.click()
@@ -63,49 +63,46 @@ def reserveClass(driver, class_to_reserve):
                           "It's devstating, I know.")
 
 
-def launcher(class_to_reserve, inputUsername, inputPassword, headlessMode):
+def launcher(course_to_reserve, inputUsername, inputPassword, headlessMode):
     driver = Login.login(inputUsername, inputPassword, headlessMode)
-    reserveClass(driver, class_to_reserve)
+    reserveCourse(driver, course_to_reserve)
 
 
 def scheduler(inputUsername, inputPassword, headlessMode):
-    """
-
-    """
 
     logging.info('Starting automatic reserve threads...')
 
-    schedule.every().monday.at("00:07").do(launcher, class_to_reserve="basi di dati",
+    schedule.every().monday.at("00:07").do(launcher, course_to_reserve="basi di dati",
                                            inputUsername=inputUsername, inputPassword=inputPassword,
                                            headlessMode=headlessMode)
-    schedule.every().monday.at("00:08").do(launcher, class_to_reserve="reti di calcolatori",
+    schedule.every().monday.at("00:08").do(launcher, course_to_reserve="reti di calcolatori",
                                            inputUsername=inputUsername, inputPassword=inputPassword,
                                            headlessMode=headlessMode)
-    schedule.every().monday.at("00:06").do(launcher, class_to_reserve="mobile computing",
+    schedule.every().monday.at("00:06").do(launcher, course_to_reserve="mobile computing",
                                            inputUsername=inputUsername, inputPassword=inputPassword,
                                            headlessMode=headlessMode)
-    schedule.every().monday.at("00:09").do(launcher, class_to_reserve="programmazione funzionale",
+    schedule.every().monday.at("00:09").do(launcher, course_to_reserve="programmazione funzionale",
                                            inputUsername=inputUsername, inputPassword=inputPassword,
                                            headlessMode=headlessMode)
 
-    schedule.every().tuesday.at("00:07").do(launcher, class_to_reserve="mobile computing",
+    schedule.every().tuesday.at("00:07").do(launcher, course_to_reserve="mobile computing",
                                             inputUsername=inputUsername, inputPassword=inputPassword,
                                             headlessMode=headlessMode)
-    schedule.every().tuesday.at("00:08").do(launcher, class_to_reserve="programmazione funzionale",
+    schedule.every().tuesday.at("00:08").do(launcher, course_to_reserve="programmazione funzionale",
                                             inputUsername=inputUsername, inputPassword=inputPassword,
                                             headlessMode=headlessMode)
-    schedule.every().tuesday.at("00:06").do(launcher, class_to_reserve="sistemi operativi",
+    schedule.every().tuesday.at("00:06").do(launcher, course_to_reserve="sistemi operativi",
                                             inputUsername=inputUsername, inputPassword=inputPassword,
                                             headlessMode=headlessMode)
 
-    schedule.every().wednesday.at("00:07").do(launcher, class_to_reserve="sistemi operativi",
+    schedule.every().wednesday.at("00:07").do(launcher, course_to_reserve="sistemi operativi",
                                               inputUsername=inputUsername, inputPassword=inputPassword,
                                               headlessMode=headlessMode)
 
-    schedule.every().thursday.at("00:07").do(launcher, class_to_reserve="basi di dati",
+    schedule.every().thursday.at("00:07").do(launcher, course_to_reserve="basi di dati",
                                              inputUsername=inputUsername, inputPassword=inputPassword,
                                              headlessMode=headlessMode)
-    schedule.every().thursday.at("00:08").do(launcher, class_to_reserve="reti di calcolatori",
+    schedule.every().thursday.at("00:08").do(launcher, course_to_reserve="reti di calcolatori",
                                              inputUsername=inputUsername, inputPassword=inputPassword,
                                              headlessMode=headlessMode)
 
@@ -114,4 +111,4 @@ def scheduler(inputUsername, inputPassword, headlessMode):
     while True:
         schedule.run_pending()
         time.sleep(1)
-        logging.info("AUTOMATIC reserve thread running...")
+        # logging.info("AUTOMATIC reserve thread running...")

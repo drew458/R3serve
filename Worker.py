@@ -6,8 +6,8 @@ import selenium
 import CourseNames
 
 
-def goToClassReservationList(driver):
-    logging.info('Going to the class reservation list...')
+def goToCourseReservationList(driver):
+    logging.info('Going to the course reservation list...')
 
     try:
         # Click on prenotazione posto in aula, biblioteca, sala studio
@@ -24,30 +24,30 @@ def goToClassReservationList(driver):
         driver.find_element_by_xpath(
             "//*[contains(text(), 'Prenota il posto in aula, biblioteca, sala studio')]").click()
         time.sleep(5)
-        logging.info('Landend on the class reservation list!')
+        logging.info('Landend on the course reservation list!')
     else:
         time.sleep(5)
-        logging.info('Landend on the class reservation list!')
+        logging.info('Landend on the course reservation list!')
 
     return driver
 
 
-def clickOnClass(driver, selected_class):
-    logging.info('Reaching the inserted class reservation to click on...')
+def clickOnCourse(driver, selected_course):
+    logging.info('Reaching the inserted course reservation to click on...')
 
     # get the table
     table = driver.find_element_by_xpath("//*[@id='studyPlanBody']")
 
     # find the row
     try:
-        class_xpath = CourseNames.composeCourseXPath(selected_class)
-        table.find_element_by_xpath(class_xpath).click()
+        course_xpath = CourseNames.composeCourseXPath(selected_course)
+        table.find_element_by_xpath(course_xpath).click()
     except IOError:
-        print("No such class found!")
-        reserve_another = input("Do you want to insert another class? [Y/n]...\n")
+        print("No such course found!")
+        reserve_another = input("Do you want to insert another course? [Y/n]...\n")
         if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
-            another_class_name = CourseNames.insertNewCourse()
-            reserve(driver, another_class_name)
+            another_course_name = CourseNames.insertNewCourse()
+            reserve(driver, another_course_name)
         else:
             logging.info('Quitting the program...')
             driver.quit()
@@ -61,15 +61,15 @@ def clickOnClass(driver, selected_class):
     return driver
 
 
-def reserve(driver, selected_class):
+def reserve(driver, selected_course):
     driver.refresh()
     time.sleep(3)
 
-    # GO TO CLASS RESERVATION LIST
-    driver2 = goToClassReservationList(driver)
+    # GO TO course RESERVATION LIST
+    driver2 = goToCourseReservationList(driver)
 
-    # CLICK ON THE CLASS
-    driver3 = clickOnClass(driver2, selected_class)
+    # CLICK ON THE course
+    driver3 = clickOnCourse(driver2, selected_course)
 
     # CHECK IF SEATS ARE STILL AVAILABLE
     table2 = driver3.find_element_by_xpath("//*[@id='slotListBody']")
@@ -83,11 +83,11 @@ def reserve(driver, selected_class):
             remainingSeatsString = table2.find_element_by_xpath(
                 "//*[@id='slotListBody']/tr[" + iString + "]/td[7]").text
         except selenium.common.exceptions.NoSuchElementException:
-            print("No more lessons available for this class!")
-            reserve_another = input("Do you want to reserve another class? [Y/n]...\n")
+            print("No more lessons available for this course!")
+            reserve_another = input("Do you want to reserve another course? [Y/n]...\n")
             if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
-                another_class_name = CourseNames.insertNewCourse()
-                reserve(driver, another_class_name)
+                another_course_name = CourseNames.insertNewCourse()
+                reserve(driver, another_course_name)
             else:
                 logging.info('Quitting the program...')
                 driver.quit()
@@ -106,7 +106,7 @@ def reserve(driver, selected_class):
                 calendar = driver3.find_element_by_xpath("//*[@id='slotListBody']/tr[" + iString + "]/td[8]")
                 calendarAttribute = calendar.get_attribute("title")
                 if calendarAttribute == "Annulla la prenotazione per questa erogazione ":
-                    print("Class at line " + iString + " already reserved")
+                    print("Course at line " + iString + " already reserved")
                     continue
                 else:
                     calendar.click()
@@ -117,7 +117,7 @@ def reserve(driver, selected_class):
 
                 if driver3.find_element_by_xpath("//h1[contains(text(), 'Dettagli prenotazione')]").is_displayed():
                     reserve_another = input("Done!\n"
-                                            "Do you want to reserve another lesson for this class? [Y/n]...\n")
+                                            "Do you want to reserve another lesson for this course? [Y/n]...\n")
                     if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
                         driver3.find_element_by_xpath("//*[@id='backArrowReservs']").click()
                         continue

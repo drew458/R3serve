@@ -1,6 +1,5 @@
 import logging
 import os
-import platform
 import time
 
 from selenium import webdriver
@@ -28,8 +27,6 @@ def login(inputUsername, inputPassword, headlessMode):
     options.add_argument('--log-level=3')
     if headlessMode is True:
         options.add_argument('--headless')
-    # driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM, log_level=0).install(),
-    #                          options=options)
     driver = webdriver.Chrome(chrome_options=options, executable_path=ChromeDriverManager().install())
 
     logging.info("Browser initialized. Reaching the website...")
