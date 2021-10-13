@@ -8,7 +8,7 @@ from webdriver_manager.utils import ChromeType
 import Resources.Cred as Cred
 
 
-def login():
+def login(inputUsername, inputPassword, headlessMode):
     # browser = webdriver.Firefox()
     # browser.get('https://website.com/Home')
     # emailElem = browser.find_element_by_id('UserName') #finds login username field
@@ -22,11 +22,13 @@ def login():
     # DEFINE WEB DRIVER
     options = webdriver.ChromeOptions()
     options.add_argument('--log-level=3')
+    if headlessMode is True:
+        options.add_argument('--headless')
     # driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM, log_level=0).install(),
     #                          options=options)
     driver = webdriver.Chrome(options=options, executable_path="Resources/chromedriver.exe")
 
-    logging.info("Reaching the website...")
+    logging.info("Browser initialized. Reaching the website...")
 
     # TARGET THE FIRST PAGE
     # Give the driver the starting URL and check you've landed where you should
@@ -42,11 +44,21 @@ def login():
     # by the name attribute (e.g. name="pwd")
     username = driver.find_element_by_xpath("//*[@id='userName']")
     username.clear()
-    username.send_keys(Cred.username)
+    if inputUsername is not None:
+        logging.info("Log in via input username")
+        username.send_keys(inputUsername)
+    else:
+        logging.info("Log in via default username")
+        username.send_keys(Cred.username)
 
     password = driver.find_element_by_xpath("//*[@id='password']")
     password.clear()
-    password.send_keys(Cred.password)
+    if inputPassword is not None:
+        logging.info("Log in via input password")
+        password.send_keys(inputPassword)
+    else:
+        logging.info("Log in via default username")
+        password.send_keys(Cred.username)
 
     # CLICK THE LOGIN BUTTON
     # Now we need to submit the login credentials by clicking the submit button
