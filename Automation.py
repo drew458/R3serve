@@ -64,34 +64,55 @@ def reserveClass(driver, class_to_reserve):
                           "It's devstating, I know.")
 
 
-def launcher(class_to_reserve):
-    driver = Login.login()
+def launcher(class_to_reserve, inputUsername, inputPassword, headlessMode):
+    driver = Login.login(inputUsername, inputPassword, headlessMode)
     reserveClass(driver, class_to_reserve)
 
 
-def scheduler():
+def scheduler(inputUsername, inputPassword, headlessMode):
     """
 
     """
 
     logging.info('Starting automatic reserve threads...')
 
-    schedule.every().monday.at("00:07").do(launcher, class_to_reserve="basi di dati")
-    schedule.every().monday.at("00:08").do(launcher, class_to_reserve="reti di calcolatori")
-    schedule.every().monday.at("00:06").do(launcher, class_to_reserve="mobile computing")
-    schedule.every().monday.at("00:09").do(launcher, class_to_reserve="programmazione funzionale")
+    schedule.every().monday.at("00:07").do(launcher, class_to_reserve="basi di dati",
+                                           inputUsername=inputUsername, inputPassword=inputPassword,
+                                           headlessMode=headlessMode)
+    schedule.every().monday.at("00:08").do(launcher, class_to_reserve="reti di calcolatori",
+                                           inputUsername=inputUsername, inputPassword=inputPassword,
+                                           headlessMode=headlessMode)
+    schedule.every().monday.at("00:06").do(launcher, class_to_reserve="mobile computing",
+                                           inputUsername=inputUsername, inputPassword=inputPassword,
+                                           headlessMode=headlessMode)
+    schedule.every().monday.at("00:09").do(launcher, class_to_reserve="programmazione funzionale",
+                                           inputUsername=inputUsername, inputPassword=inputPassword,
+                                           headlessMode=headlessMode)
 
-    schedule.every().tuesday.at("00:07").do(launcher, class_to_reserve="mobile computing")
-    schedule.every().tuesday.at("00:08").do(launcher, class_to_reserve="programmazione funzionale")
-    schedule.every().tuesday.at("00:06").do(launcher, class_to_reserve="sistemi operativi")
+    schedule.every().tuesday.at("00:07").do(launcher, class_to_reserve="mobile computing",
+                                            inputUsername=inputUsername, inputPassword=inputPassword,
+                                            headlessMode=headlessMode)
+    schedule.every().tuesday.at("00:08").do(launcher, class_to_reserve="programmazione funzionale",
+                                            inputUsername=inputUsername, inputPassword=inputPassword,
+                                            headlessMode=headlessMode)
+    schedule.every().tuesday.at("00:06").do(launcher, class_to_reserve="sistemi operativi",
+                                            inputUsername=inputUsername, inputPassword=inputPassword,
+                                            headlessMode=headlessMode)
 
-    schedule.every().wednesday.at("00:07").do(launcher, class_to_reserve="sistemi operativi")
+    schedule.every().wednesday.at("00:07").do(launcher, class_to_reserve="sistemi operativi",
+                                              inputUsername=inputUsername, inputPassword=inputPassword,
+                                              headlessMode=headlessMode)
 
-    schedule.every().thursday.at("00:07").do(launcher, class_to_reserve="basi di dati")
-    schedule.every().thursday.at("00:08").do(launcher, class_to_reserve="reti di calcolatori")
+    schedule.every().thursday.at("00:07").do(launcher, class_to_reserve="basi di dati",
+                                             inputUsername=inputUsername, inputPassword=inputPassword,
+                                             headlessMode=headlessMode)
+    schedule.every().thursday.at("00:08").do(launcher, class_to_reserve="reti di calcolatori",
+                                             inputUsername=inputUsername, inputPassword=inputPassword,
+                                             headlessMode=headlessMode)
 
     logging.info('Automatic reserve threads started!')
 
     while True:
         schedule.run_pending()
         time.sleep(1)
+        logging.info("AUTOMATIC reserve thread running...")
