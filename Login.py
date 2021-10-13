@@ -4,6 +4,8 @@ import platform
 import time
 
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+
 try:
     import Resources.Cred as Cred
 except ModuleNotFoundError:
@@ -28,19 +30,7 @@ def login(inputUsername, inputPassword, headlessMode):
         options.add_argument('--headless')
     # driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM, log_level=0).install(),
     #                          options=options)
-
-    # If you are on Heroku, chromedriver config needs to be different
-    if platform.system() == "Windows":
-        driver = webdriver.Chrome(options=options, executable_path="Resources/chromedriver.exe")
-    else:
-        try:
-            from webdriver_manager.chrome import ChromeDriverManager
-            driver = webdriver.Chrome(
-                chrome_options=options, executable_path=ChromeDriverManager().install()
-            )
-        except ModuleNotFoundError:
-            options.binary_location = os.environ["GOOGLE_CHROME_BIN"]
-            driver = webdriver.Chrome(executable_path=os.environ["CHROMEDRIVER_PATH"], chrome_options=options)
+    driver = webdriver.Chrome(chrome_options=options, executable_path=ChromeDriverManager().install())
 
     logging.info("Browser initialized. Reaching the website...")
 
