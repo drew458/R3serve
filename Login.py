@@ -3,8 +3,10 @@ import os
 import time
 
 from selenium import webdriver
-
-import Resources.Cred as Cred
+try:
+    import Resources.Cred as Cred
+except ModuleNotFoundError:
+    pass
 
 
 def login(inputUsername, inputPassword, headlessMode):
@@ -55,8 +57,11 @@ def login(inputUsername, inputPassword, headlessMode):
             pathUsernameString = str(pathUsername)
             username.send_keys(pathUsername)
         except KeyError or pathUsernameString is None:
-            logging.info("Log in via default username")
-            username.send_keys(Cred.username)
+            try:
+                logging.info("Log in via default username")
+                username.send_keys(Cred.username)
+            except Exception:
+                pass
         else:
             logging.info("Log in via username environment variable")
 
@@ -71,8 +76,11 @@ def login(inputUsername, inputPassword, headlessMode):
             pathPasswordString = str(pathPassword)
             username.send_keys(pathPassword)
         except KeyError or pathPasswordString is None:
-            logging.info("Log in via default username")
-            password.send_keys(Cred.password)
+            try:
+                logging.info("Log in via default username")
+                password.send_keys(Cred.password)
+            except Exception:
+                pass
         else:
             logging.info("Log in via password environment variable")
 
