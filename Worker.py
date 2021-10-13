@@ -45,11 +45,14 @@ def clickOnClass(driver, selected_class):
     except IOError:
         print("No such class found!")
         reserve_another = input("Do you want to insert another class? [Y/n]...\n")
-        if reserve_another == "y" or reserve_another == "Y":
+        if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
             another_class_name = ClassNames.insertClass()
             reserve(driver, another_class_name)
         else:
+            logging.info('Quitting the program...')
             driver.quit()
+            logging.info('Driver thrown away')
+            logging.info('The automatic reverse threads will continue to stay up, but it is an Addios for me!')
             quit()
     else:
         time.sleep(3)
@@ -82,15 +85,15 @@ def reserve(driver, selected_class):
         except selenium.common.exceptions.NoSuchElementException:
             print("No more lessons available for this class!")
             reserve_another = input("Do you want to reserve another class? [Y/n]...\n")
-            if reserve_another == "y" or reserve_another == "Y":
+            if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
                 another_class_name = ClassNames.insertClass()
                 reserve(driver, another_class_name)
             else:
                 logging.info('Quitting the program...')
                 driver.quit()
                 logging.info('Driver thrown away')
+                logging.info('The automatic reverse threads will continue to stay up, but it is an Addios for me!')
                 quit()
-                logging.info('Addios!')
         else:
             remainingSeatsInt = int(remainingSeatsString)
             if remainingSeatsInt == 0:
@@ -115,15 +118,15 @@ def reserve(driver, selected_class):
                 if driver3.find_element_by_xpath("//h1[contains(text(), 'Dettagli prenotazione')]").is_displayed():
                     reserve_another = input("Done!\n"
                                             "Do you want to reserve another lesson for this class? [Y/n]...\n")
-                    if reserve_another == "y" or reserve_another == "Y":
+                    if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
                         driver3.find_element_by_xpath("//*[@id='backArrowReservs']").click()
                         continue
                     else:
                         logging.info('Quitting the program...')
                         driver.quit()
                         logging.info('Driver thrown away')
+                        logging.info('The automatic reverse threads will continue to stay up, but it is an Addios for me!')
                         quit()
-                        logging.info('Addios!')
                 else:
                     print("This reservation overlaps with another one in the same time slot, "
                           "hence it cannot be completed.\n"
