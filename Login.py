@@ -1,3 +1,4 @@
+import logging
 import time
 
 from selenium import webdriver
@@ -14,9 +15,13 @@ def login():
     # passwordElem.send_keys('password') #enters pw
     # passwordElem.submit() #presses submit button
 
+    logging.info('Opening the login page...')
+
     # DEFINE WEB DRIVER
     options = webdriver.ChromeOptions()
     driver = webdriver.Chrome(options=options, executable_path="Resources/chromedriver.exe")
+
+    logging.info("Reaching the website...")
 
     # TARGET THE FIRST PAGE
     # Give the driver the starting URL and check you've landed where you should
@@ -24,6 +29,8 @@ def login():
     driver.get("https://gomp.uniroma3.it/Login?ReturnUrl=%2f")
     time.sleep(3)
     assert "smart_edu" in driver.title
+
+    logging.info("Entering username and password...")
 
     # COMPLETE THE USERNAME AND PASSWORD FIELDS
     # Find the username field by its id in the HTML markup (e.g. id="uid) and the password
@@ -39,5 +46,7 @@ def login():
     # CLICK THE LOGIN BUTTON
     # Now we need to submit the login credentials by clicking the submit button
     driver.find_element_by_xpath("//*[@id='loginButton']").click()
+
+    logging.info("Login done!")
 
     return driver
