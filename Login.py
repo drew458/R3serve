@@ -1,5 +1,6 @@
 import logging
 import os
+import platform
 import time
 
 from selenium import webdriver
@@ -27,7 +28,13 @@ def login(inputUsername, inputPassword, headlessMode):
         options.add_argument('--headless')
     # driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM, log_level=0).install(),
     #                          options=options)
-    driver = webdriver.Chrome(options=options, executable_path="Resources/chromedriver.exe")
+
+    # If you are on Heroku, chromedriver config needs to be different
+    if platform.system() == "Windows":
+        driver = webdriver.Chrome(options=options, executable_path="Resources/chromedriver.exe")
+    else:
+        options.binary_location = os.environ["GOOGLE_CHROME_BIN"]
+        driver = webdriver.Chrome(executable_path=os.environ["CHROMEDRIVER_PATH"], chrome_options=options)
 
     logging.info("Browser initialized. Reaching the website...")
 
