@@ -1,4 +1,5 @@
 import logging
+import os
 import time
 
 from selenium import webdriver
@@ -42,14 +43,23 @@ def login(inputUsername, inputPassword, headlessMode):
     # COMPLETE THE USERNAME AND PASSWORD FIELDS
     # Find the username field by its id in the HTML markup (e.g. id="uid) and the password
     # by the name attribute (e.g. name="pwd")
+
+    # Prioritize input username and password. If usern didn't provide username, then search them in environment
+    # variables. If they aren't found in environment variables, the look for them in the Cred.py file
     username = driver.find_element_by_xpath("//*[@id='userName']")
     username.clear()
     if inputUsername is not None:
         logging.info("Log in via input username")
         username.send_keys(inputUsername)
     else:
-        logging.info("Log in via default username")
-        username.send_keys(Cred.username)
+        try:
+            pathUsername = os.environ["USERNAME"]
+            username.send_keys(pathUsername)
+        except KeyError or pathUsername is None:
+            logging.info("Log in via default username")
+            username.send_keys(Cred.username)
+        else:
+            logging.info("Log in via username environment variable")
 
     password = driver.find_element_by_xpath("//*[@id='password']")
     password.clear()
@@ -57,8 +67,14 @@ def login(inputUsername, inputPassword, headlessMode):
         logging.info("Log in via input password")
         password.send_keys(inputPassword)
     else:
-        logging.info("Log in via default username")
-        password.send_keys(Cred.username)
+        try:
+            pathPassword = os.environ["PASSWORD"]
+            username.send_keys(pathPassword)
+        except KeyError or pathPassword is None:
+            logging.info("Log in via default username")
+            password.send_keys(Cred.password)
+        else:
+            logging.info("Log in via password environment variable")
 
     # CLICK THE LOGIN BUTTON
     # Now we need to submit the login credentials by clicking the submit button
