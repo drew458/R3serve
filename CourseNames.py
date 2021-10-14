@@ -2,25 +2,25 @@ import logging
 
 ANALISI = "ANALISI MATEMATICA I"
 GEOMETRIA_COMBINATORIA = "GEOMETRIA E COMBINATORIA"
-FISICA = "FISICA I"  # TODO: implementare nel parsing sotto
-CHIMICA = "CHIMICA"  # TODO: implementare nel parsing sotto
-FONDAMENTI_INFORMATICA = "FONDAMENTI DI INFORMATICA"  # TODO: implementare nel parsing sotto
+FISICA = "FISICA I"
+CHIMICA = "CHIMICA"
+FONDAMENTI_INFORMATICA = "FONDAMENTI DI INFORMATICA"
 ELETTRONICA_ELETTROTECNICA = "ELETTROTECNICA ED ELETTRONICA"
 TELECOMUNICAZIONI = "FONDAMENTI DI TELECOMUNICAZIONE"
 ANALISI_SISTEMI_EVENTI = "ANALISI DI SISTEMI AD EVENTI"
 ALGORITMI_STRUTTURE_DATI = "ALGORITMI E STRUTTURE DATI"
-RICERCA_OPERATIVA = "RICERCA OPERATIVA"  # TODO: implementare nel parsing sotto
-FONDAMENTI_AUTOMATICA = "FONDAMENTI DI AUTOMATICA"  # TODO: implementare nel parsing sotto
-PROGRAMMAZIONE_AD_OGGETTI = "PROGRAMMAZIONE ORIENTATA AGLI OGGETTI"  # TODO: implementare nel parsing sotto
-CALCOLATORI_ELETTRONICI = "CALCOLATORI ELETTRONICI"  # TODO: implementare nel parsing sotto
+RICERCA_OPERATIVA = "RICERCA OPERATIVA"
+FONDAMENTI_AUTOMATICA = "FONDAMENTI DI AUTOMATICA"
+PROGRAMMAZIONE_AD_OGGETTI = "PROGRAMMAZIONE ORIENTATA AGLI OGGETTI"
+CALCOLATORI_ELETTRONICI = "CALCOLATORI ELETTRONICI"
 BASI_DATI = "BASI DI DATI I"
-ECONOMIA = "ECONOMIA APPLICATA ALL'INGEGNERIA"  # TODO: implementare nel parsing sotto
+ECONOMIA = "ECONOMIA APPLICATA ALL'INGEGNERIA"
 SISTEMI_OPERATIVI = "SISTEMI OPERATIVI"
 PROGRAMMAZIONE_FUNZIONALE = "PROGRAMMAZIONE FUNZIONALE"
 RETI_CALCOLATORI = "RETI DI CALCOLATORI"
 MOBILE_COMPUTING = "MOBILE COMPUTING"
-ANALISI_PROGETTAZIONE_SOFTWARE = "ANALISI E PROGETTAZIONE DEL SOFTWARE"  # TODO: implementare nel parsing sotto
-SISTEMI_INFORMATIVI_WEB = "SISTEMI INFORMATIVI SU WEB"  # TODO: implementare nel parsing sotto
+ANALISI_PROGETTAZIONE_SOFTWARE = "ANALISI E PROGETTAZIONE DEL SOFTWARE"
+SISTEMI_INFORMATIVI_WEB = "SISTEMI INFORMATIVI SU WEB"
 
 
 def insertCourse(input_course):
@@ -44,77 +44,130 @@ def courseParsing(inserted_course):
     logging.info("Started course parsing...")
 
     # ANALISI I
-    if inserted_course in ("analisi", "Analisi", "Analisi I", "Analisi 1", "analisi 1", "Analisi matematica 1",
-                           "Analisi Matematica 1", "analisi Matematica 1", "analisi Matematica I"):
+    if inserted_course.casefold() in ("analisi", "analisi 1", "analisi matematica 1", "analisi matematica i"):
         selected_course = ANALISI
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
-        # GEOMETRIA E COMBINATORIA
-    elif inserted_course in ("geometria", "Geometria", "geometria e combinatoria", "Geometria e Combinatoria",
-                             "Geometria e combinatoria", "geometria e Combinatoria", "Geometria E Combinatoria"):
+    # GEOMETRIA E COMBINATORIA
+    elif inserted_course.casefold() in ("geometria", "geometria e combinatoria"):
         selected_course = GEOMETRIA_COMBINATORIA
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
+    # FISICA I
+    elif inserted_course.casefold() in ("fisica", "fisica 1", "fisica i"):
+        selected_course = FISICA
+        logging.info("course parsing completed! I'mma look for " + selected_course + "...")
+        return selected_course
+
+    # CHIMICA
+    elif inserted_course.casefold() in ("chimica", "chimica 1", "chimica i"):
+        selected_course = CHIMICA
+        logging.info("course parsing completed! I'mma look for " + selected_course + "...")
+        return selected_course
+
+    # FONDAMENTI INFORMATICA
+    elif inserted_course.casefold() in ("fondamenti di informatica", "informatica", "fdi", "fond inf",
+                                        "fondamenti informatica"):
+        selected_course = FONDAMENTI_INFORMATICA
+        logging.info("course parsing completed! I'mma look for " + selected_course + "...")
+        return selected_course
+
     # ELETTRONICA
-    elif inserted_course in (
-            "elettronica", "Elettronica", "Elettronica ed Elettrotecnica", "Elettronica ed Elettrotecnica",
-            "Elettrotecnica", "elettrotecnica"):
+    elif inserted_course.casefold() in ("elettronica", "elettronica ed elettrotecnica", "elettrotecnica ed elettronica",
+                                        "elettronica e elettrotecnica", "elettrotecnica e elettronica",
+                                        "elettrotecnica"):
         selected_course = ELETTRONICA_ELETTROTECNICA
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
     # FONDAMENTI DI TELECOMUNICAZIONI
-    elif inserted_course in ("telecomunicazioni", "Telecomunicazioni", "Fondamenti di Telecomunicazioni",
-                             "Fondamenti di telecomunicazioni", "tlc", "TLC"):
+    elif inserted_course.casefold() in ("telecomunicazioni", "fondamenti di telecomunicazioni", "fondamenti tlc",
+                                        "fondamenti di tlc", "tlc"):
         selected_course = TELECOMUNICAZIONI
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
     # ANALISI DI SISTEMI AD EVENTI
-    elif inserted_course in ("analisi di sistemi ad eventi", "ASE", "ase", "Analisi di sistemi ad eventi",
-                             "Analisi Di Sistemi Ad Eventi", "Analisi di Sistemi ad Eventi"):
+    elif inserted_course.casefold() in ("analisi di sistemi ad eventi", "ase"):
         selected_course = ANALISI_SISTEMI_EVENTI
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
     # ALGORITMI E STRUTTURE DATI
-    elif inserted_course in ("algoritmi e strutture dati", "Algoritmi e strutture dati", "asd", "ASD",
-                             "Algoritmi e Strutture Dati"):
+    elif inserted_course.casefold() in ("algoritmi e strutture dati", "asd"):
         selected_course = ALGORITMI_STRUTTURE_DATI
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
+    # RICERCA OPERATIVA
+    elif inserted_course.casefold() in ("ricerca operativa", "ricerca operativa 1", "ricerca operativa i",
+                                        "ro", "ro1", "roi"):
+        selected_course = RICERCA_OPERATIVA
+        logging.info("course parsing completed! I'mma look for " + selected_course + "...")
+        return selected_course
+
+    # PROGRAMMAZIONE ORIENTATA AGLI OGGETTI
+    elif inserted_course.casefold() in ("programmazione orientata agli oggetti", "programmazione ad oggetti",
+                                        "programmazione a oggetti", "poo"):
+        selected_course = PROGRAMMAZIONE_AD_OGGETTI
+        logging.info("course parsing completed! I'mma look for " + selected_course + "...")
+        return selected_course
+
+    # CALCOLATORI ELETTRONICI
+    elif inserted_course.casefold() in ("calcolatori elettronici", "calcolatori"):
+        selected_course = CALCOLATORI_ELETTRONICI
+        logging.info("course parsing completed! I'mma look for " + selected_course + "...")
+        return selected_course
+
     # BASI DI DATI
-    elif inserted_course in ("basi di dati", "Basi Di Dati", "Basi di dati", "basi di dati 1", "Basi Di Dati 1",
-                             "Basi di dati 1", "Basi di Dati I", "Basi di dati I", "Basi Di Dati I"):
+    elif inserted_course.casefold() in ("basi di dati", "basi di dati 1", "basi di dati i", "bd"):
         selected_course = BASI_DATI
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
+    # ECONOMIA
+    elif inserted_course.casefold() in ("economia applicata all'ingegneria", "economia", "eai"):
+        selected_course = ECONOMIA
+        logging.info("course parsing completed! I'mma look for " + selected_course + "...")
+        return selected_course
+
     # SISTEMI OPERATIVI
-    elif inserted_course in ("sistemi operativi", "Sistemi operativi", "Sistemi Operativi" "so" "SO"):
+    elif inserted_course.casefold() in ("sistemi operativi", "so"):
         selected_course = SISTEMI_OPERATIVI
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
     # RETI DI CALCOLATORI
-    elif inserted_course in ("reti di calcolatori", "Reti di calcolatori", "Reti Di Calcolatori", "reti", "Reti"):
+    elif inserted_course.casefold() in ("reti di calcolatori", "reti"):
         selected_course = RETI_CALCOLATORI
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
     # PROGRAMMAZIONE FUNZIONALE
-    elif inserted_course in ("programmazione funzionale", "Programmazione funzionale", "Programmazione Funzionale",
-                             "pf", "PF"):
+    elif inserted_course.casefold() in ("programmazione funzionale", "funzionale", "pf"):
         selected_course = PROGRAMMAZIONE_FUNZIONALE
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
     # MOBILE COMPUTING
-    elif inserted_course in ("mobile computing", "Mobile computing", "Mobile Computing", "MC", "mc"):
+    elif inserted_course.casefold() in ("mobile computing", "mc"):
         selected_course = MOBILE_COMPUTING
+        logging.info("course parsing completed! I'mma look for " + selected_course + "...")
+        return selected_course
+
+    # ANALISI E PROGETTAZIONE DEL SOFTWARE
+    elif inserted_course.casefold() in ("analisi e progettazione del software",
+                                        "analisi e progettazione software", "aps"):
+        selected_course = ANALISI_PROGETTAZIONE_SOFTWARE
+        logging.info("course parsing completed! I'mma look for " + selected_course + "...")
+        return selected_course
+
+    # SISTEMI INFORMATIVI SU WEB
+    elif inserted_course.casefold() in ("sistemi informativi su web",
+                                        "sistemi informativi sul web", "siw"):
+        selected_course = SISTEMI_INFORMATIVI_WEB
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
