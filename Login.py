@@ -6,7 +6,7 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 
 try:
-    import Resources.Cred as Cred
+    import static.Cred as Cred
 except ModuleNotFoundError:
     pass
 
