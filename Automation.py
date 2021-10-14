@@ -63,48 +63,50 @@ def reserveCourse(driver, course_to_reserve):
                           "It's devstating, I know.")
 
 
-def launcher(course_to_reserve, inputUsername, inputPassword, headlessMode):
-    driver = Login.login(inputUsername, inputPassword, headlessMode)
+def launcher(course_to_reserve, inputUsername, inputPassword, isHeadless, isHeroku):
+    results = [None] * 2
+    Login.login(inputUsername, inputPassword, isHeadless, isHeroku, results)
+    driver = results[0]
     reserveCourse(driver, course_to_reserve)
 
 
-def scheduler(inputUsername, inputPassword, headlessMode):
+def scheduler(inputUsername, inputPassword, isHeadless, isHeroku):
 
     logging.info('Starting automatic reserve threads...')
 
     schedule.every().monday.at("00:07").do(launcher, course_to_reserve="basi di dati",
                                            inputUsername=inputUsername, inputPassword=inputPassword,
-                                           headlessMode=headlessMode)
+                                           headlessMode=isHeadless, isHeroku=isHeroku)
     schedule.every().monday.at("00:08").do(launcher, course_to_reserve="reti di calcolatori",
                                            inputUsername=inputUsername, inputPassword=inputPassword,
-                                           headlessMode=headlessMode)
+                                           headlessMode=isHeadless, isHeroku=isHeroku)
     schedule.every().monday.at("00:06").do(launcher, course_to_reserve="mobile computing",
                                            inputUsername=inputUsername, inputPassword=inputPassword,
-                                           headlessMode=headlessMode)
+                                           headlessMode=isHeadless, isHeroku=isHeroku)
     schedule.every().monday.at("00:09").do(launcher, course_to_reserve="programmazione funzionale",
                                            inputUsername=inputUsername, inputPassword=inputPassword,
-                                           headlessMode=headlessMode)
+                                           headlessMode=isHeadless, isHeroku=isHeroku)
 
     schedule.every().tuesday.at("00:07").do(launcher, course_to_reserve="mobile computing",
                                             inputUsername=inputUsername, inputPassword=inputPassword,
-                                            headlessMode=headlessMode)
+                                            headlessMode=isHeadless, isHeroku=isHeroku)
     schedule.every().tuesday.at("00:08").do(launcher, course_to_reserve="programmazione funzionale",
                                             inputUsername=inputUsername, inputPassword=inputPassword,
-                                            headlessMode=headlessMode)
+                                            headlessMode=isHeadless, isHeroku=isHeroku)
     schedule.every().tuesday.at("00:06").do(launcher, course_to_reserve="sistemi operativi",
                                             inputUsername=inputUsername, inputPassword=inputPassword,
-                                            headlessMode=headlessMode)
+                                            headlessMode=isHeadless, isHeroku=isHeroku)
 
     schedule.every().wednesday.at("00:07").do(launcher, course_to_reserve="sistemi operativi",
                                               inputUsername=inputUsername, inputPassword=inputPassword,
-                                              headlessMode=headlessMode)
+                                              headlessMode=isHeadless, isHeroku=isHeroku)
 
     schedule.every().thursday.at("00:07").do(launcher, course_to_reserve="basi di dati",
                                              inputUsername=inputUsername, inputPassword=inputPassword,
-                                             headlessMode=headlessMode)
+                                             headlessMode=isHeadless, isHeroku=isHeroku)
     schedule.every().thursday.at("00:08").do(launcher, course_to_reserve="reti di calcolatori",
                                              inputUsername=inputUsername, inputPassword=inputPassword,
-                                             headlessMode=headlessMode)
+                                             headlessMode=isHeadless, isHeroku=isHeroku)
 
     logging.info('Automatic reserve threads started!')
 

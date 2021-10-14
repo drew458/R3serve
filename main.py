@@ -1,5 +1,6 @@
 import argparse
 import logging
+from queue import Queue
 from threading import Thread
 
 import Automation
@@ -29,36 +30,47 @@ def main():
     parser.add_argument("-H", "-hl", "-headless", "--headless", action="store_true",
                         help="Don't open the browser for the whole task"
                              "(Headless mode)")
+    parser.add_argument("-heroku", "--heroku", action="store_true",
+                        help="Run the program in Heroku mode (see for login credentials in the"
+                             "environment variables")
 
     args = parser.parse_args()
 
     if args.automatic is True:
-        mainAutomatic(args.username, args.password, args.course, args.headless)
+        mainAutomatic(args.username, args.password, args.course, args.headless, args.heroku)
     else:
-        mainManual(args.username, args.password, args.course, args.headless)
+        mainManual(args.username, args.password, args.course, args.headless, args.heroku)
 
 
-def mainManual(inputUsername, inputPassword, inputCourse, isHeadless):
+def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isHeroku):
     # Initialize loggin format
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
     # Perform the log in
-    driver = Login.login(inputUsername, inputPassword, isHeadless)
+    # driver = Login.login(inputUsername, inputPassword, isHeadless)
+
+    results = [None] * 2
+    login_thread = Thread(target=Login.login, args=(inputUsername, inputPassword, isHeadless,
+                                                    isHeroku, results))
+    login_thread.start()
 
     # Insert the course
     selected_course = CourseNames.insertCourse(inputCourse)
+
+    login_thread.join()
+    driver = results[0]
 
     # Reserve the lesson
     Worker.reserve(driver, selected_course)
 
 
-def mainAutomatic(inputUsername, inputPassword, inputCourse, isHeadless):
+def mainAutomatic(inputUsername, inputPassword, inputCourse, isHeadless, isHeroku):
     # Initialize loggin format
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
     # Start the automatic reserve thread
     automatic_reservations = Thread(target=Automation.scheduler, args=(inputUsername, inputPassword,
-                                                                       isHeadless))
+                                                                       isHeadless, isHeroku))
     automatic_reservations.start()
 
 

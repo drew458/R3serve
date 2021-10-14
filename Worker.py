@@ -1,4 +1,5 @@
 import logging
+import sys
 import time
 
 import selenium
@@ -52,8 +53,8 @@ def clickOnCourse(driver, selected_course):
             logging.info('Quitting the program...')
             driver.quit()
             logging.info('Driver thrown away')
-            logging.info('The automatic reverse threads will continue to stay up, but it is an Addios for me!')
-            quit()
+            logging.info('The automatic reserve threads will continue to stay up, but it is an Addios for me!')
+            sys.exit()
     else:
         time.sleep(3)
         logging.info('Here it is!')
@@ -92,8 +93,8 @@ def reserve(driver, selected_course):
                 logging.info('Quitting the program...')
                 driver.quit()
                 logging.info('Driver thrown away')
-                logging.info('The automatic reverse threads will continue to stay up, but it is an Addios for me!')
-                quit()
+                logging.info('The automatic reserve threads will continue to stay up, but it is an Addios for me!')
+                sys.exit()
         else:
             remainingSeatsInt = int(remainingSeatsString)
             if remainingSeatsInt == 0:
@@ -125,8 +126,8 @@ def reserve(driver, selected_course):
                         logging.info('Quitting the program...')
                         driver.quit()
                         logging.info('Driver thrown away')
-                        logging.info('The automatic reverse threads will continue to stay up, but it is an Addios for me!')
-                        quit()
+                        logging.info('The automatic reserve threads will continue to stay up, but it is an Addios for me!')
+                        sys.exit()
                 else:
                     print("This reservation overlaps with another one in the same time slot, "
                           "hence it cannot be completed.\n"
