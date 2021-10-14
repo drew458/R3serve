@@ -11,7 +11,7 @@ except ModuleNotFoundError:
     pass
 
 
-def login(inputUsername, inputPassword, headlessMode, isHeroku, result):
+def login(inputUsername, inputPassword, isHeadless, isHeroku, result):
     # browser = webdriver.Firefox()
     # browser.get('https://website.com/Home')
     # emailElem = browser.find_element_by_id('UserName') #finds login username field
@@ -25,7 +25,7 @@ def login(inputUsername, inputPassword, headlessMode, isHeroku, result):
     # DEFINE WEB DRIVER
     options = webdriver.ChromeOptions()
     options.add_argument('--log-level=3')
-    if headlessMode is True:
+    if isHeadless is True:
         options.add_argument('--headless')
 
     # TODO: remove all kind of logging from Webdriver Manager
