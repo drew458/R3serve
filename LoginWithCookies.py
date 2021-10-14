@@ -24,14 +24,14 @@ def login():
         # options = webdriver.ChromeOptions()
         # driver = webdriver.Chrome(options=options)
         driver.get('https://gomp.uniroma3.it/Login?ReturnUrl=%2f')
-        driver.find_element_by_xpath("//*[@id='userName']").send_keys(Cred.username)
-        driver.find_element_by_xpath("//*[@id='password']").send_keys(Cred.password)
-        driver.find_element_by_xpath("//*[@id='loginButton']").click()
+        driver.find_element_by_id("userName").send_keys(Cred.username)
+        driver.find_element_by_id("password").send_keys(Cred.password)
+        driver.find_element_by_id("loginButton").click()
         pickle.dump(driver.get_cookies(), open("Resources/cookies.pkl", "wb"))
 
     time.sleep(2)
     try:
-        driver.find_element_by_xpath("//*[@id='userName']")
+        driver.find_element_by_id("userName")
     except selenium.common.exceptions.NoSuchElementException:
         return driver
 
@@ -39,9 +39,9 @@ def login():
     # options = webdriver.ChromeOptions()
     # driver = webdriver.Chrome(options=options)
     driver.get('https://gomp.uniroma3.it/Login?ReturnUrl=%2f')
-    driver.find_element_by_xpath("//*[@id='userName']").send_keys("AND.MARINI4")
-    driver.find_element_by_xpath("//*[@id='password']").send_keys("Canino?1963")
-    driver.find_element_by_xpath("//*[@id='loginButton']").click()
+    driver.find_element_by_id("userName").send_keys("AND.MARINI4")
+    driver.find_element_by_id("password").send_keys("Canino?1963")
+    driver.find_element_by_id("loginButton").click()
     pickle.dump(driver.get_cookies(), open("Resources/cookies.pkl", "wb"))
 
     return driver

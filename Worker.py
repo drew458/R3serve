@@ -12,7 +12,7 @@ def goToCourseReservationList(driver):
 
     try:
         # Click on prenotazione posto in aula, biblioteca, sala studio
-        # listPrenotazione = driver.find_element_by_xpath("//*[@id='homeIconList']")
+        # listPrenotazione = driver.find_element_by_id("homeIconList")
         driver.find_element_by_xpath(
             "//*[contains(text(), 'Prenota il posto in aula, biblioteca, sala studio')]").click()
     except selenium.common.exceptions.NoSuchElementException:
@@ -37,7 +37,7 @@ def clickOnCourse(driver, selected_course):
     logging.info('Reaching the inserted course reservation to click on...')
 
     # get the table
-    table = driver.find_element_by_xpath("//*[@id='studyPlanBody']")
+    table = driver.find_element_by_id("studyPlanBody")
 
     # find the row
     try:
@@ -72,7 +72,7 @@ def reserve(driver, selected_course):
     driver3 = clickOnCourse(driver2, selected_course)
 
     # CHECK IF SEATS ARE STILL AVAILABLE
-    table2 = driver3.find_element_by_xpath("//*[@id='slotListBody']")
+    table2 = driver3.find_element_by_id("slotListBody")
 
     # tr[n]/td[m] are row and column of the element in the matrix
     # n parameter in tr[n] depends on the specific lesson, m parameter in td[m] is fixed at 7
@@ -110,15 +110,15 @@ def reserve(driver, selected_course):
                 else:
                     calendar.click()
                     time.sleep(3)
-                    modal = driver3.find_element_by_xpath("//*[@id='partialQuestionYesNo']")
-                    modal.find_element_by_xpath("//*[@id='partialQuestionYesNoConfirmButton']").click()
+                    modal = driver3.find_element_by_id("partialQuestionYesNo")
+                    modal.find_element_by_id("partialQuestionYesNoConfirmButton").click()
                     time.sleep(10)
 
                 if driver3.find_element_by_xpath("//h1[contains(text(), 'Dettagli prenotazione')]").is_displayed():
                     reserve_another = input("Done!\n"
                                             "Do you want to reserve another lesson for this course? [Y/n]...\n")
                     if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
-                        driver3.find_element_by_xpath("//*[@id='backArrowReservs']").click()
+                        driver3.find_element_by_id("backArrowReservs").click()
                         continue
                     else:
                         logging.info('Quitting the program...')

@@ -20,7 +20,7 @@ def reserveCourse(driver, course_to_reserve):
     driver3 = Worker.clickOnCourse(driver2, course_to_reserve)
 
     # CHECK IF SEATS ARE STILL AVAILABLE
-    table2 = driver3.find_element_by_xpath("//*[@id='slotListBody']")
+    table2 = driver3.find_element_by_id("slotListBody")
 
     # tr[n]/td[m] are row and column of the element in the matrix
     # n parameter in tr[n] depends on the specific lesson, m parameter in td[m] is fixed at 7
@@ -51,13 +51,13 @@ def reserveCourse(driver, course_to_reserve):
                 else:
                     calendar.click()
                     time.sleep(3)
-                    modal = driver3.find_element_by_xpath("//*[@id='partialQuestionYesNo']")
-                    modal.find_element_by_xpath("//*[@id='partialQuestionYesNoConfirmButton']").click()
+                    modal = driver3.find_element_by_id("partialQuestionYesNo")
+                    modal.find_element_by_id("partialQuestionYesNoConfirmButton").click()
                     time.sleep(10)
 
                 if driver3.find_element_by_xpath("//h1[contains(text(), 'Dettagli prenotazione')]").is_displayed():
                     print("Done!\n")
-                    driver3.find_element_by_xpath("//*[@id='backArrowReservs']").click()
+                    driver3.find_element_by_id("backArrowReservs").click()
                     continue
                 else:
                     print("This reservation overlaps with another one in the same time slot, "

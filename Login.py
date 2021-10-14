@@ -44,7 +44,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, result):
 
     # Prioritize input username and password. If we are in heroku mode, then search them in environment
     # variables. If they aren't found in environment variables, then look for them in the Cred.py file
-    username = driver.find_element_by_xpath("//*[@id='userName']")
+    username = driver.find_element_by_id("userName")
     username.clear()
     if inputUsername is not None:
         logging.info("Log in via input username...")
@@ -60,7 +60,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, result):
         logging.info("Log in via default username")
         username.send_keys(Cred.username)
 
-    password = driver.find_element_by_xpath("//*[@id='password']")
+    password = driver.find_element_by_id("password")
     password.clear()
     if inputPassword is not None:
         logging.info("Log in via input password...")
@@ -77,7 +77,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, result):
         password.send_keys(Cred.password)
 
     # CLICK THE LOGIN BUTTON
-    driver.find_element_by_xpath("//*[@id='loginButton']").click()
+    driver.find_element_by_id("loginButton").click()
 
     logging.info("Login done!")
     time.sleep(0.5)
