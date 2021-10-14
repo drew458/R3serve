@@ -52,8 +52,7 @@ def clickOnCourse(driver, selected_course):
         else:
             logging.info('Quitting the program...')
             driver.quit()
-            logging.info('Driver thrown away')
-            logging.info('The automatic reserve threads will continue to stay up, but it is an Addios for me!')
+            logging.info('Driver thrown away, addios!')
             sys.exit()
     else:
         time.sleep(3)
@@ -92,8 +91,7 @@ def reserve(driver, selected_course):
             else:
                 logging.info('Quitting the program...')
                 driver.quit()
-                logging.info('Driver thrown away')
-                logging.info('The automatic reserve threads will continue to stay up, but it is an Addios for me!')
+                logging.info('Driver thrown away, addios!')
                 sys.exit()
         else:
             remainingSeatsInt = int(remainingSeatsString)
@@ -125,8 +123,7 @@ def reserve(driver, selected_course):
                     else:
                         logging.info('Quitting the program...')
                         driver.quit()
-                        logging.info('Driver thrown away')
-                        logging.info('The automatic reserve threads will continue to stay up, but it is an Addios for me!')
+                        logging.info('Driver thrown away, addios!')
                         sys.exit()
                 else:
                     print("This reservation overlaps with another one in the same time slot, "

@@ -29,7 +29,8 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, result):
         options.add_argument('--headless')
 
     # TODO: remove all kind of logging from Webdriver Manager
-    driver = webdriver.Chrome(chrome_options=options, executable_path=ChromeDriverManager(log_level=0).install())
+    driver = webdriver.Chrome(chrome_options=options, executable_path=ChromeDriverManager(log_level=0,
+                                                                                          print_first_line=False).install())
 
     logging.info("Browser initialized. Reaching the website...")
 
