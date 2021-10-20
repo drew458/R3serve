@@ -13,11 +13,14 @@ To run the script, open Command Line Interface in the folder you downloaded or c
 ## Options
 The program accepts the following parameters when launching:
 
-    -h, --help                   Print the parameters list
+    -h, --help                   
+                                 Print the parameters list
 
-    -U, -u, --username           The username of your GOMP account
+    -U, -u, --username           
+                                 The username of your GOMP account
 
-    -P, -p, --password           The password of your GOMP account
+    -P, -p, --password           
+                                 The password of your GOMP account
 
     -C, -c, -course, --course [COURSENAME]
                                  The course you want to reserve
@@ -25,13 +28,14 @@ The program accepts the following parameters when launching:
     -A, -a, -auto, -automatic, --automatic
                                  Run the program only in Automatic Course Reserve mode
     
-    -hl, -headless, --headless
+    -hl, -headless, --headless   
                                  Don't open the browser for the whole task(Headless mode)
 
     -L, -l, -logging, --logging
                                  Enable logging
     
-    -heroku, --heroku            Run the program in Heroku mode 
+    -heroku, --heroku            
+                                 Run the program in Heroku mode 
                                  (see for login credentials in the environment variables)
 
 Example of launching:
