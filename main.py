@@ -56,7 +56,7 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isHeroku):
     # Insert the course
     while True:
         try:
-            selected_course = CourseNames.insertCourse(inputCourse)
+            selected_course = IOConsole.insertCourse(inputCourse)
         except IOError:
             print("No matching course fow what you inserted.")
             continue
