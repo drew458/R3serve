@@ -1,5 +1,5 @@
 # R3serve
-A program to reserve one or more lessons in the Roma Tre University [student website (GOMP)](https://gomp.uniroma3.it/Login?ReturnUrl=%2f).
+A program to reserve one or more lesson in the Roma Tre University [student website (GOMP)](https://gomp.uniroma3.it/Login?ReturnUrl=%2f).
 
 
 ## Installation
@@ -48,6 +48,4 @@ python main.py -u YOURUSERNAME -p YOURPASSWORD -c Fondamenti di Automatica -hl
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-The script is ready for deployment on Heroku, which is what I use to run it continuously on the cloud. The free tier on 
-Heroku perfectly fits. In this case the username and password must go into the virtual environment variables 
-(see the settings page on Heroku's dashboard).
+The script is ready for deployment on Heroku, which is what I use to run it continuously on the cloud. The free tier perfectly fits. In this case the username and password must go into the virtual environment variables (see the settings page on Heroku's dashboard).
