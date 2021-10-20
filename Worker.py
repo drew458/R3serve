@@ -4,7 +4,7 @@ import time
 
 import selenium
 
-import CourseNames
+import IOConsole
 
 
 def goToCourseReservationList(driver):
@@ -41,13 +41,13 @@ def clickOnCourse(driver, selected_course):
 
     # find the row
     try:
-        course_xpath = CourseNames.composeCourseXPath(selected_course)
+        course_xpath = IOConsole.composeCourseXPath(selected_course)
         table.find_element_by_xpath(course_xpath).click()
     except IOError:
         print("No such course found!")
         reserve_another = input("Do you want to insert another course? [Y/n]...\n")
         if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
-            another_course_name = CourseNames.insertNewCourse()
+            another_course_name = IOConsole.insertNewCourse()
             reserve(driver, another_course_name)
         else:
             logging.info('Quitting the program...')
@@ -86,7 +86,7 @@ def reserve(driver, selected_course):
             print("No more lessons available for this course!")
             reserve_another = input("Do you want to reserve another course? [Y/n]...\n")
             if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
-                another_course_name = CourseNames.insertNewCourse()
+                another_course_name = IOConsole.insertNewCourse()
                 reserve(driver, another_course_name)
             else:
                 logging.info('Quitting the program...')

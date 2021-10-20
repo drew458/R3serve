@@ -4,7 +4,7 @@ import time
 import schedule
 import selenium
 
-import CourseNames
+import IOConsole
 import Login
 import Worker
 
@@ -69,7 +69,7 @@ def launcher(course_to_reserve, inputUsername, inputPassword, isHeadless, isHero
     results = [None] * 2
     Login.login(inputUsername, inputPassword, isHeadless, isHeroku, results)
     driver = results[0]
-    parsed_course_to_reserve = CourseNames.courseParsing(course_to_reserve)
+    parsed_course_to_reserve = IOConsole.courseParsing(course_to_reserve)
     reserveCourse(driver, parsed_course_to_reserve)
 
 

@@ -1,10 +1,9 @@
 import argparse
 import logging
-from queue import Queue
 from threading import Thread
 
 import Automation
-import CourseNames
+import IOConsole
 import Login
 import Worker
 

@@ -3,7 +3,10 @@ import os
 import time
 
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support import expected_conditions as EC
 
 try:
     import static.Cred as Cred
@@ -38,13 +41,12 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, result):
     # Give the driver the starting URL and check you've landed where you should
     # by running an assertion on the text in the title of the page:
     driver.get("https://gomp.uniroma3.it/Login?ReturnUrl=%2f")
-    time.sleep(3)
 
     logging.info("Entering username and password...")
 
     # Prioritize input username and password. If we are in heroku mode, then search them in environment
     # variables. If they aren't found in environment variables, then look for them in the Cred.py file
-    username = driver.find_element_by_id("userName")
+    username = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'userName')))
     username.clear()
     if inputUsername is not None:
         logging.info("Log in via input username...")
@@ -60,7 +62,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, result):
         logging.info("Log in via default username")
         username.send_keys(Cred.username)
 
-    password = driver.find_element_by_id("password")
+    password = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'password')))
     password.clear()
     if inputPassword is not None:
         logging.info("Log in via input password...")
@@ -77,7 +79,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, result):
         password.send_keys(Cred.password)
 
     # CLICK THE LOGIN BUTTON
-    driver.find_element_by_id("loginButton").click()
+    WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, 'loginButton'))).click()
 
     logging.info("Login done!")
     time.sleep(0.5)
