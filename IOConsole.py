@@ -4,6 +4,11 @@ from static import Courses
 
 
 def insertCourse(input_course):
+    """
+    Determines the course, passed as program argument or requested as user input
+    :param: the course passed as an argumente when launching the program
+    :return: the cours
+    """
     if input_course is None:
         inserted_course = input("Please insert the course you want to reserve...\n")
     else:
@@ -14,6 +19,10 @@ def insertCourse(input_course):
 
 
 def insertNewCourse():
+    """
+    Determines thwe course via user input
+    :return: the course
+    """
     inserted_course = input("Please insert the course you want to reserve...\n")
 
     parsed_course = courseParsing(inserted_course)
@@ -21,6 +30,11 @@ def insertNewCourse():
 
 
 def courseParsing(inserted_course):
+    """
+    Assings the user inserted course to the corrisponding course, as GOMP formats its name.
+    :param: inserted_course: the user-typed course name
+    :return: the GOMP-compatible course name
+    """
     logging.info("Started course parsing...")
 
     # ANALISI I
@@ -156,6 +170,11 @@ def courseParsing(inserted_course):
 
 
 def composeCourseXPath(selected_course):
+    """
+    Composes the XPATH of the course
+    :param selected_course: the course name
+    :return: the XPATH
+    """
     a = "//tr/td[contains(text(), "
     b = "'" + selected_course + "'"
     c = ")]"

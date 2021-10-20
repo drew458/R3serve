@@ -8,8 +8,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 # from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support import expected_conditions as EC
 
-import main
-
 try:
     import static.Cred as Cred
 except ModuleNotFoundError:
@@ -17,6 +15,15 @@ except ModuleNotFoundError:
 
 
 def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result):
+    """
+    Performs the login into the website
+    :param inputUsername: the website username
+    :param inputPassword: the website password
+    :param isHeadless: headless mode boolean condition
+    :param isHeroku: heroku mode boolean condition
+    :param isLogging: logging mode boolean condition
+    :param result: the array containing the logged-in driver in position [0]
+    """
     if isLogging is False:
         logger = logging.getLogger()
         logger.disabled = True
@@ -29,7 +36,6 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
     if isHeadless is True:
         options.add_argument('--headless')
 
-    # TODO: remove all kind of logging from Webdriver Manager
     # driver = webdriver.Chrome(chrome_options=options, executable_path=ChromeDriverManager(log_level=0,
     #                                                                                       print_first_line=False).install())
     driver = webdriver.Chrome(chrome_options=options)
@@ -37,8 +43,6 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
     logging.info("Browser initialized. Reaching the website...")
 
     # TARGET THE FIRST PAGE
-    # Give the driver the starting URL and check you've landed where you should
-    # by running an assertion on the text in the title of the page:
     driver.get("https://gomp.uniroma3.it/Login?ReturnUrl=%2f")
 
     logging.info("Entering username and password...")

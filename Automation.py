@@ -10,6 +10,11 @@ import Worker
 
 
 def reserveCourse(driver, course_to_reserve):
+    """
+    Performs the whole course reservation process
+    :param driver: the already logged-in driver
+    :param course_to_reserve: the already parsed course name
+    """
     driver.refresh()
     time.sleep(3)
 
@@ -66,6 +71,15 @@ def reserveCourse(driver, course_to_reserve):
 
 
 def launcher(course_to_reserve, inputUsername, inputPassword, isHeadless, isHeroku, isLogging):
+    """
+    Launches the login, course name parsing and reservation functions
+    :param course_to_reserve:
+    :param inputUsername: the website username
+    :param inputPassword: the website password
+    :param isHeadless: headless mode boolean condition
+    :param isHeroku: heroku mode boolean condition
+    :param isLogging: logging mode boolean condition
+    """
     results = [None] * 2
     Login.login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, results)
     driver = results[0]
@@ -74,6 +88,17 @@ def launcher(course_to_reserve, inputUsername, inputPassword, isHeadless, isHero
 
 
 def scheduler(inputUsername, inputPassword, isHeadless, isHeroku, isLogging):
+    """
+    Schedules all the courses reservations
+    :param inputUsername: the website username
+    :param inputPassword: the website password
+    :param isHeadless: headless mode boolean condition
+    :param isHeroku: heroku mode boolean condition
+    :param isLogging: logging mode boolean condition
+    """
+    if isLogging is False:
+        logger = logging.getLogger()
+        logger.disabled = True
 
     logging.info('Starting automatic reserve threads...')
 
