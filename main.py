@@ -45,9 +45,7 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isHeroku):
     # Initialize loggin format
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
-    # Perform the log in
-    # driver = Login.login(inputUsername, inputPassword, isHeadless)
-
+    # Start the login thread
     results = [None] * 2
     login_thread = Thread(target=Login.login, args=(inputUsername, inputPassword, isHeadless,
                                                     isHeroku, results))
@@ -56,12 +54,13 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isHeroku):
     # Insert the course
     while True:
         try:
-            selected_course = CourseNames.insertCourse(inputCourse)
+            selected_course = IOConsole.insertCourse(inputCourse)
         except IOError:
             print("No matching course fow what you inserted.")
             continue
         break
 
+    # retrieve result from the login thread
     login_thread.join()
     driver = results[0]
 
