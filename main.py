@@ -69,7 +69,7 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isHeroku):
 
     logging.info('Quitting the program...')
     driver.quit()
-    logging.info('Driver thrown away, addios!')
+    logging.info("Driver thrown away, I'm gonna die")
 
 
 def mainAutomatic(inputUsername, inputPassword, inputCourse, isHeadless, isHeroku):

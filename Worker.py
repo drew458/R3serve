@@ -55,7 +55,7 @@ def clickOnCourse(driver, selected_course):
         else:
             logging.info('Quitting the program...')
             driver.quit()
-            logging.info('Driver thrown away, addios!')
+            logging.info("Driver thrown away, I'm gonna die")
             sys.exit()
     else:
         logging.info('Here it is!')
