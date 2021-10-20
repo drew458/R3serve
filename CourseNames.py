@@ -1,26 +1,6 @@
 import logging
 
-ANALISI = "ANALISI MATEMATICA I"
-GEOMETRIA_COMBINATORIA = "GEOMETRIA E COMBINATORIA"
-FISICA = "FISICA I"
-CHIMICA = "CHIMICA"
-FONDAMENTI_INFORMATICA = "FONDAMENTI DI INFORMATICA"
-ELETTRONICA_ELETTROTECNICA = "ELETTROTECNICA ED ELETTRONICA"
-TELECOMUNICAZIONI = "FONDAMENTI DI TELECOMUNICAZIONE"
-ANALISI_SISTEMI_EVENTI = "ANALISI DI SISTEMI AD EVENTI"
-ALGORITMI_STRUTTURE_DATI = "ALGORITMI E STRUTTURE DATI"
-RICERCA_OPERATIVA = "RICERCA OPERATIVA"
-FONDAMENTI_AUTOMATICA = "FONDAMENTI DI AUTOMATICA"
-PROGRAMMAZIONE_AD_OGGETTI = "PROGRAMMAZIONE ORIENTATA AGLI OGGETTI"
-CALCOLATORI_ELETTRONICI = "CALCOLATORI ELETTRONICI"
-BASI_DATI = "BASI DI DATI I"
-ECONOMIA = "ECONOMIA APPLICATA ALL'INGEGNERIA"
-SISTEMI_OPERATIVI = "SISTEMI OPERATIVI"
-PROGRAMMAZIONE_FUNZIONALE = "PROGRAMMAZIONE FUNZIONALE"
-RETI_CALCOLATORI = "RETI DI CALCOLATORI"
-MOBILE_COMPUTING = "MOBILE COMPUTING"
-ANALISI_PROGETTAZIONE_SOFTWARE = "ANALISI E PROGETTAZIONE DEL SOFTWARE"
-SISTEMI_INFORMATIVI_WEB = "SISTEMI INFORMATIVI SU WEB"
+from static import Courses
 
 
 def insertCourse(input_course):
@@ -45,32 +25,32 @@ def courseParsing(inserted_course):
 
     # ANALISI I
     if inserted_course.casefold() in ("analisi", "analisi 1", "analisi matematica 1", "analisi matematica i"):
-        selected_course = ANALISI
+        selected_course = Courses.ANALISI
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
     # GEOMETRIA E COMBINATORIA
     elif inserted_course.casefold() in ("geometria", "geometria e combinatoria"):
-        selected_course = GEOMETRIA_COMBINATORIA
+        selected_course = Courses.GEOMETRIA_COMBINATORIA
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
     # FISICA I
     elif inserted_course.casefold() in ("fisica", "fisica 1", "fisica i"):
-        selected_course = FISICA
+        selected_course = Courses.FISICA
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
     # CHIMICA
     elif inserted_course.casefold() in ("chimica", "chimica 1", "chimica i"):
-        selected_course = CHIMICA
+        selected_course = Courses.CHIMICA
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
     # FONDAMENTI INFORMATICA
     elif inserted_course.casefold() in ("fondamenti di informatica", "informatica", "fdi", "fond inf",
                                         "fondamenti informatica"):
-        selected_course = FONDAMENTI_INFORMATICA
+        selected_course = Courses.FONDAMENTI_INFORMATICA
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
 
