@@ -14,7 +14,7 @@ def login():
         options = webdriver.ChromeOptions()
         driver = webdriver.Chrome(options=options)
         driver.get('https://gomp.uniroma3.it/Login?ReturnUrl=%2f')
-        cookies = pickle.load(open("Resources/cookies.pkl", "rb"))
+        cookies = pickle.load(open("resources/cookies.pkl", "rb"))
         for cookie in cookies:
             driver.add_cookie(cookie)
         driver.get('https://gomp.uniroma3.it/Login?ReturnUrl=%2f')
@@ -27,7 +27,7 @@ def login():
         driver.find_element_by_id("userName").send_keys(Cred.username)
         driver.find_element_by_id("password").send_keys(Cred.password)
         driver.find_element_by_id("loginButton").click()
-        pickle.dump(driver.get_cookies(), open("Resources/cookies.pkl", "wb"))
+        pickle.dump(driver.get_cookies(), open("resources/cookies.pkl", "wb"))
 
     time.sleep(2)
     try:
@@ -42,6 +42,6 @@ def login():
     driver.find_element_by_id("userName").send_keys("AND.MARINI4")
     driver.find_element_by_id("password").send_keys("Canino?1963")
     driver.find_element_by_id("loginButton").click()
-    pickle.dump(driver.get_cookies(), open("Resources/cookies.pkl", "wb"))
+    pickle.dump(driver.get_cookies(), open("resources/cookies.pkl", "wb"))
 
     return driver

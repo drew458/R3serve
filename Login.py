@@ -5,7 +5,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
+# from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support import expected_conditions as EC
 
 try:
@@ -15,14 +15,6 @@ except ModuleNotFoundError:
 
 
 def login(inputUsername, inputPassword, isHeadless, isHeroku, result):
-    # browser = webdriver.Firefox()
-    # browser.get('https://website.com/Home')
-    # emailElem = browser.find_element_by_id('UserName') #finds login username field
-    # emailElem.send_keys('username') #enter the username
-    # passwordElem = browser.find_element_by_id('UserPassword') #finds pw field
-    # passwordElem.send_keys('password') #enters pw
-    # passwordElem.submit() #presses submit button
-
     logging.info('Opening the login page...')
 
     # DEFINE WEB DRIVER
@@ -32,8 +24,9 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, result):
         options.add_argument('--headless')
 
     # TODO: remove all kind of logging from Webdriver Manager
-    driver = webdriver.Chrome(chrome_options=options, executable_path=ChromeDriverManager(log_level=0,
-                                                                                          print_first_line=False).install())
+    # driver = webdriver.Chrome(chrome_options=options, executable_path=ChromeDriverManager(log_level=0,
+    #                                                                                       print_first_line=False).install())
+    driver = webdriver.Chrome(chrome_options=options)
 
     logging.info("Browser initialized. Reaching the website...")
 

@@ -67,6 +67,10 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isHeroku):
     # Reserve the lesson
     Worker.reserve(driver, selected_course)
 
+    logging.info('Quitting the program...')
+    driver.quit()
+    logging.info('Driver thrown away, addios!')
+
 
 def mainAutomatic(inputUsername, inputPassword, inputCourse, isHeadless, isHeroku):
     # Initialize loggin format

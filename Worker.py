@@ -94,10 +94,7 @@ def reserve(driver, selected_course):
                 another_course_name = IOConsole.insertNewCourse()
                 reserve(driver, another_course_name)
             else:
-                logging.info('Quitting the program...')
-                driver.quit()
-                logging.info('Driver thrown away, addios!')
-                sys.exit()
+                break
         else:
             remainingSeatsInt = int(remainingSeatsString)
             if remainingSeatsInt == 0:
@@ -133,11 +130,18 @@ def reserve(driver, selected_course):
                         # driver3.find_element_by_id("backArrowReservs").click()
                         continue
                     else:
-                        logging.info('Quitting the program...')
-                        driver.quit()
-                        logging.info('Driver thrown away, addios!')
-                        sys.exit()
+                        break
                 else:
                     print("This reservation overlaps with another one in the same time slot, "
                           "hence it cannot be completed.\n"
                           "It's devstating, I know.")
+                    reserve_another2 = input("Do you want to reserve another lesson for this course? [Y/n]...\n")
+                    if reserve_another2.casefold() in ("y", "yes", "si", "s"):
+                        try:
+                            WebDriverWait(driver3, 2).until(EC.element_to_be_clickable((
+                                By.ID, "backArrowReservs"))).click()
+                            # driver3.find_element_by_id("backArrowReservs").click()
+                        except Exception:
+                            continue
+                    else:
+                        break
