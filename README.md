@@ -1,33 +1,35 @@
 # R3serve
-A program to reserve one or more lessons in the Roma Tre University [student website](https://gomp.uniroma3.it/Login?ReturnUrl=%2f).
+A program to reserve one or more lessons in the Roma Tre University [student website (GOMP)](https://gomp.uniroma3.it/Login?ReturnUrl=%2f).
 
 
 ## Installation
-* Clone this project (`git clone https://github.com/drew458/PS5-scraper.git`) or [download it](https://github.com/drew458/PS5-scraper/archive/refs/heads/master.zip)
-* The script uses ChromeDriver, so [download](https://chromedriver.chromium.org/downloads) and place it into the folder 
+* Clone this project via command line (`git clone https://github.com/drew458/PS5-scraper.git`) or [download it](https://github.com/drew458/PS5-scraper/archive/refs/heads/master.zip)
 * With [Python 3.8](https://www.python.org/downloads/release/python-380/) installed on your computer, install the external
 modules by running in Command Line Interface:
   * `pip install -r requirements.txt`
 
-To run the script, `cd` into the folder and `python3 main.py`.
+To run the script, open Command Line Interface in the folder you downloaded or cloned and run `python main.py`.
 
 ## Options
-The program takes the following parameters when launching:
+The program accepts the following parameters when launching:
 
     -h, --help                   Print the parameters list
 
-    -u, -U, --username           The username of your GOMP account
+    -U, -u, --username           The username of your GOMP account
 
-    -p, -P, --password           The password of your GOMP account
+    -P, -p, --password           The password of your GOMP account
 
-    -c, -C, -course, --course [COURSENAME]
+    -C, -c, -course, --course [COURSENAME]
                                  The course you want to reserve
     
     -A, -a, -auto, -automatic, --automatic
                                  Run the program only in Automatic Course Reserve mode
     
-    -hl, -H, -headless, --headless
+    -hl, -headless, --headless
                                  Don't open the browser for the whole task(Headless mode)
+
+    -L, -l, -logging, --logging
+                                 Enable logging
     
     -heroku, --heroku            Run the program in Heroku mode 
                                  (see for login credentials in the environment variables)

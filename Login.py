@@ -8,13 +8,19 @@ from selenium.webdriver.support.wait import WebDriverWait
 # from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support import expected_conditions as EC
 
+import main
+
 try:
     import static.Cred as Cred
 except ModuleNotFoundError:
     pass
 
 
-def login(inputUsername, inputPassword, isHeadless, isHeroku, result):
+def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result):
+    if isLogging is False:
+        logger = logging.getLogger()
+        logger.disabled = True
+
     logging.info('Opening the login page...')
 
     # DEFINE WEB DRIVER

@@ -82,7 +82,7 @@ def reserve(driver, selected_course):
 
         try:
             # TODO: find a way to remove time.sleep(3)
-            time.sleep(2)
+            time.sleep(1.5)
             # remainingSeatsString = WebDriverWait(driver3, 20).until(EC.presence_of_element_located((
             #    By.XPATH, "//*[@id='slotListBody']/tr[" + iString + "]/td[7]"))).text
             remainingSeatsString = driver3.find_element_by_xpath(
@@ -94,7 +94,10 @@ def reserve(driver, selected_course):
                 another_course_name = IOConsole.insertNewCourse()
                 reserve(driver, another_course_name)
             else:
-                break
+                logging.info('Quitting the program...')
+                driver.quit()
+                logging.info("Driver thrown away, I'm gonna die")
+                sys.exit()
         else:
             remainingSeatsInt = int(remainingSeatsString)
             if remainingSeatsInt == 0:
@@ -134,7 +137,7 @@ def reserve(driver, selected_course):
                 else:
                     print("This reservation overlaps with another one in the same time slot, "
                           "hence it cannot be completed.\n"
-                          "It's devstating, I know.")
+                          "It's devastating, I know.")
                     reserve_another2 = input("Do you want to reserve another lesson for this course? [Y/n]...\n")
                     if reserve_another2.casefold() in ("y", "yes", "si", "s"):
                         try:

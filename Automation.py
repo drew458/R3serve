@@ -62,54 +62,54 @@ def reserveCourse(driver, course_to_reserve):
                 else:
                     print("This reservation overlaps with another one in the same time slot, "
                           "hence it cannot be completed.\n"
-                          "It's devstating, I know.")
+                          "It's devastating, I know.")
 
 
-def launcher(course_to_reserve, inputUsername, inputPassword, isHeadless, isHeroku):
+def launcher(course_to_reserve, inputUsername, inputPassword, isHeadless, isHeroku, isLogging):
     results = [None] * 2
-    Login.login(inputUsername, inputPassword, isHeadless, isHeroku, results)
+    Login.login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, results)
     driver = results[0]
     parsed_course_to_reserve = IOConsole.courseParsing(course_to_reserve)
     reserveCourse(driver, parsed_course_to_reserve)
 
 
-def scheduler(inputUsername, inputPassword, isHeadless, isHeroku):
+def scheduler(inputUsername, inputPassword, isHeadless, isHeroku, isLogging):
 
     logging.info('Starting automatic reserve threads...')
 
     schedule.every().monday.at("00:07").do(launcher, course_to_reserve="basi di dati",
                                            inputUsername=inputUsername, inputPassword=inputPassword,
-                                           isHeadless=isHeadless, isHeroku=isHeroku)
+                                           isHeadless=isHeadless, isHeroku=isHeroku, isLogging=isLogging)
     schedule.every().monday.at("00:08").do(launcher, course_to_reserve="reti di calcolatori",
                                            inputUsername=inputUsername, inputPassword=inputPassword,
-                                           isHeadless=isHeadless, isHeroku=isHeroku)
+                                           isHeadless=isHeadless, isHeroku=isHeroku, isLogging=isLogging)
     schedule.every().monday.at("00:06").do(launcher, course_to_reserve="mobile computing",
                                            inputUsername=inputUsername, inputPassword=inputPassword,
-                                           isHeadless=isHeadless, isHeroku=isHeroku)
+                                           isHeadless=isHeadless, isHeroku=isHeroku, isLogging=isLogging)
     schedule.every().monday.at("00:09").do(launcher, course_to_reserve="programmazione funzionale",
                                            inputUsername=inputUsername, inputPassword=inputPassword,
-                                           isHeadless=isHeadless, isHeroku=isHeroku)
+                                           isHeadless=isHeadless, isHeroku=isHeroku, isLogging=isLogging)
 
     schedule.every().tuesday.at("00:07").do(launcher, course_to_reserve="mobile computing",
                                             inputUsername=inputUsername, inputPassword=inputPassword,
-                                            isHeadless=isHeadless, isHeroku=isHeroku)
+                                            isHeadless=isHeadless, isHeroku=isHeroku, isLogging=isLogging)
     schedule.every().tuesday.at("00:08").do(launcher, course_to_reserve="programmazione funzionale",
                                             inputUsername=inputUsername, inputPassword=inputPassword,
-                                            isHeadless=isHeadless, isHeroku=isHeroku)
+                                            isHeadless=isHeadless, isHeroku=isHeroku, isLogging=isLogging)
     schedule.every().tuesday.at("00:06").do(launcher, course_to_reserve="sistemi operativi",
                                             inputUsername=inputUsername, inputPassword=inputPassword,
-                                            isHeadless=isHeadless, isHeroku=isHeroku)
+                                            isHeadless=isHeadless, isHeroku=isHeroku, isLogging=isLogging)
 
     schedule.every().wednesday.at("00:07").do(launcher, course_to_reserve="sistemi operativi",
                                               inputUsername=inputUsername, inputPassword=inputPassword,
-                                              isHeadless=isHeadless, isHeroku=isHeroku)
+                                              isHeadless=isHeadless, isHeroku=isHeroku, isLogging=isLogging)
 
     schedule.every().thursday.at("00:07").do(launcher, course_to_reserve="basi di dati",
                                              inputUsername=inputUsername, inputPassword=inputPassword,
-                                             isHeadless=isHeadless, isHeroku=isHeroku)
+                                             isHeadless=isHeadless, isHeroku=isHeroku, isLogging=isLogging)
     schedule.every().thursday.at("00:08").do(launcher, course_to_reserve="reti di calcolatori",
                                              inputUsername=inputUsername, inputPassword=inputPassword,
-                                             isHeadless=isHeadless, isHeroku=isHeroku)
+                                             isHeadless=isHeadless, isHeroku=isHeroku, isLogging=isLogging)
 
     logging.info('Automatic reserve threads started!')
 
