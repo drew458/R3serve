@@ -55,7 +55,13 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isHeroku):
     login_thread.start()
 
     # Insert the course
-    selected_course = CourseNames.insertCourse(inputCourse)
+    while True:
+        try:
+            selected_course = CourseNames.insertCourse(inputCourse)
+        except IOError:
+            print("No matching course fow what you inserted.")
+            continue
+        break
 
     login_thread.join()
     driver = results[0]
