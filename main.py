@@ -38,7 +38,16 @@ def main():
 
     args = parser.parse_args()
 
-    # CONFIG FILE (.ini)
+    if args.username is None and args.password is None and args.course is None and args.automatic is False \
+            and args.headless is False and args.logging is False and args.heroku is False:
+        pass
+    else:
+        if args.automatic is True:
+            mainAutomatic(args.username, args.password, args.course, args.headless, args.heroku, args.logging)
+        else:
+            mainManual(args.username, args.password, args.course, args.headless, args.logging, args.heroku)
+
+    # CONFIG FILE (config.ini)
     config = ConfigParser(allow_no_value=True)
     config.read('config.ini')
 
@@ -56,11 +65,6 @@ def main():
     else:
         mainManual(usernameConfigFile, passwordConfigFile, courseConfigFile, headlessModeConfigFile,
                    loggingModeConfigFile, herokuModeConfigFile)
-
-    if args.automatic is True:
-        mainAutomatic(args.username, args.password, args.course, args.headless, args.heroku, args.logging)
-    else:
-        mainManual(args.username, args.password, args.course, args.headless, args.logging, args.heroku)
 
 
 def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging, isHeroku):
