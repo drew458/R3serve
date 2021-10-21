@@ -1,5 +1,6 @@
 import argparse
 import logging
+from configparser import ConfigParser
 from threading import Thread
 
 import Automation
@@ -36,6 +37,25 @@ def main():
                              "environment variables")
 
     args = parser.parse_args()
+
+    # CONFIG FILE (.ini)
+    config = ConfigParser(allow_no_value=True)
+    config.read('config.ini')
+
+    usernameConfigFile = config.get('main', 'username')
+    passwordConfigFile = config.get('main', 'password')
+    courseConfigFile = config.get('main', 'course')
+    autoModeConfigFile = config.getboolean('main', 'autoMode')
+    headlessModeConfigFile = config.getboolean('main', 'headless')
+    loggingModeConfigFile = config.getboolean('main', 'logging')
+    herokuModeConfigFile = config.getboolean('main', 'heroku')
+
+    if autoModeConfigFile is True:
+        mainAutomatic(usernameConfigFile, passwordConfigFile, courseConfigFile, headlessModeConfigFile,
+                      herokuModeConfigFile, loggingModeConfigFile)
+    else:
+        mainManual(usernameConfigFile, passwordConfigFile, courseConfigFile, headlessModeConfigFile,
+                   loggingModeConfigFile, herokuModeConfigFile)
 
     if args.automatic is True:
         mainAutomatic(args.username, args.password, args.course, args.headless, args.heroku, args.logging)
