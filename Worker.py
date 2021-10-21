@@ -88,7 +88,7 @@ def reserve(driver, selected_course):
             remainingSeatsString = driver3.find_element_by_xpath(
                 "//*[@id='slotListBody']/tr[" + iString + "]/td[7]").text
         except selenium.common.exceptions.NoSuchElementException:
-            print("No more lessons available for this course!")
+            print("No more lessons available for this course")
             reserve_another = input("Do you want to reserve another course? [Y/n]...\n")
             if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
                 another_course_name = IOConsole.insertNewCourse()
@@ -101,7 +101,7 @@ def reserve(driver, selected_course):
         else:
             remainingSeatsInt = int(remainingSeatsString)
             if remainingSeatsInt == 0:
-                print("No more seats available, I'm sorry bro")
+                print("No more seats available")
                 continue
             else:
                 # tr[n]/td[m] are row and column of the element in the matrix
@@ -136,8 +136,7 @@ def reserve(driver, selected_course):
                         break
                 else:
                     print("This reservation overlaps with another one in the same time slot, "
-                          "hence it cannot be completed.\n"
-                          "It's devastating, I know.")
+                          "hence it cannot be completed")
                     reserve_another2 = input("Do you want to reserve another lesson for this course? [Y/n]...\n")
                     if reserve_another2.casefold() in ("y", "yes", "si", "s"):
                         try:

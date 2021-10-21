@@ -45,7 +45,7 @@ def reserveCourse(driver, course_to_reserve):
         else:
             remainingSeatsInt = int(remainingSeatsString)
             if remainingSeatsInt == 0:
-                print("No more seats available, I'm sorry bro")
+                print("No more seats available")
                 continue
             else:
                 # tr[n]/td[m] are row and column of the element in the matrix
@@ -69,8 +69,7 @@ def reserveCourse(driver, course_to_reserve):
                     continue
                 else:
                     print("This reservation overlaps with another one in the same time slot, "
-                          "hence it cannot be completed.\n"
-                          "It's devastating, I know.")
+                          "hence it cannot be completed")
 
 
 def launcher(course_to_reserve, inputUsername, inputPassword, isHeadless, isHeroku, isLogging):
