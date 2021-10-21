@@ -10,7 +10,6 @@ import Worker
 
 
 def main():
-    # argumentEvaluation()
 
     # this allows to insert the course full name (even with whitespaces) without need to add ""
     # the course name is inferred from the argument between two options (e.g. -c)
@@ -38,6 +37,8 @@ def main():
 
     args = parser.parse_args()
 
+    # If no args are provided (checking if all the arguments are in their default state), go over to the
+    #  config file
     if args.username is None and args.password is None and args.course is None and args.automatic is False \
             and args.headless is False and args.logging is False and args.heroku is False:
         pass
@@ -93,6 +94,7 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging,
     # Reserve the lesson
     Worker.reserve(driver, selected_course)
 
+    # Quit the program
     logging.info('Quitting the program...')
     driver.quit()
     logging.info("Driver thrown away, I'm gonna die")
