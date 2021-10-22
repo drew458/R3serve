@@ -146,7 +146,7 @@ def courseParsing(inserted_course):
         return selected_course
 
     # MOBILE COMPUTING
-    elif inserted_course.casefold() in ("mobile computing", "mc"):
+    elif inserted_course.casefold() in ("mobile computing", "mc", "mobile"):
         selected_course = Courses.MOBILE_COMPUTING
         logging.info("course parsing completed! I'mma look for " + selected_course + "...")
         return selected_course
