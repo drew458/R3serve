@@ -3,7 +3,7 @@ A program to reserve one or more lesson in the  [student website (GOMP)](https:/
 
 
 ## Installation
-* Clone this project via command line (`git clone https://github.com/drew458/PS5-scraper.git`) or [download it](https://github.com/drew458/PS5-scraper/archive/refs/heads/master.zip)
+* Clone this project via command line (`git clone https://github.com/drew458/PS5-scraper.git`) or [download it](https://github.com/drew458/PS5-scraper/archive/refs/heads/master.zip).
 * With [Python 3.8](https://www.python.org/downloads/release/python-380/) installed on your computer, install the external
 modules by running in Command Line Interface:
   * `pip install -r requirements.txt`
@@ -17,26 +17,26 @@ The program accepts the following parameters when launching:
                                  Print the parameters list
 
     -U, -u, --username           
-                                 The username of your GOMP account
+                                 The username of your GOMP account                                      [default: None]
 
     -P, -p, --password           
-                                 The password of your GOMP account
+                                 The password of your GOMP account                                      [default: None]
 
     -C, -c, -course, --course [COURSENAME]
-                                 The course you want to reserve
+                                 The course you want to reserve                                         [default: None]
     
     -A, -a, -auto, -automatic, --automatic
-                                 Run the program only in Automatic Course Reserve mode
+                                 Run the program only in Automatic Course Reserve mode                  [default: False]
     
     -hl, -headless, --headless   
-                                 Don't open the browser for the whole task(Headless mode)
+                                 Don't open the browser for the whole task(Headless mode)               [default: False]
 
     -L, -l, -logging, --logging
-                                 Enable logging
+                                 Enable logging                                                         [default: False]
     
     -heroku, --heroku            
                                  Run the program in Heroku mode 
-                                 (see for login credentials in the environment variables)
+                                 (see for login credentials in the environment variables)               [default: False]
 
 Example of launching:
 ```
