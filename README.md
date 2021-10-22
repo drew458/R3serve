@@ -4,7 +4,7 @@ A program to reserve one or more lesson in the  [student website (GOMP)](https:/
 
 ## Installation
 * Clone this project via command line (`git clone https://github.com/drew458/PS5-scraper.git`) or [download it](https://github.com/drew458/PS5-scraper/archive/refs/heads/master.zip).
-* With [Python 3.8](https://www.python.org/downloads/release/python-380/) installed on your computer, install the external
+* With [Python 3.8](https://www.python.org/downloads/release/python-380/) (or higher) installed on your computer, install the external
 modules by running in Command Line Interface:
   * `pip install -r requirements.txt`
 
