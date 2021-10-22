@@ -1,5 +1,6 @@
 import argparse
 import logging
+import sys
 from configparser import ConfigParser
 from threading import Thread
 
@@ -83,8 +84,13 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging,
         try:
             selected_course = IOConsole.insertCourse(inputCourse)
         except IOError:
-            print("No matching course for what you inserted.")
-            continue
+            if inputCourse is not None:
+                print("The course passed as argument does not exist")
+                inputCourse = None
+                continue
+            else:
+                print("No matching course for what you inserted.")
+                continue
         break
 
     # retrieve result from the login thread
