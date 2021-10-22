@@ -1,6 +1,5 @@
 import argparse
 import logging
-import sys
 from configparser import ConfigParser
 from threading import Thread
 
@@ -38,38 +37,46 @@ def main():
 
     args = parser.parse_args()
 
-    # If no args are provided (checking if all the arguments are in their default state), go over to the
-    #  config file
+    # If no args are provided (checking if all the arguments are in their default state), take parameters from config file
     if args.username is None and args.password is None and args.course is None and args.automatic is False \
             and args.headless is False and args.logging is False and args.heroku is False:
-        pass
+
+        # CONFIG FILE (config.ini)
+        config = ConfigParser(allow_no_value=True)
+        config.read('config.ini')
+
+        usernameConfigFile = config.get('main', 'username')
+        passwordConfigFile = config.get('main', 'password')
+        courseConfigFile = config.get('main', 'course')
+        autoModeConfigFile = config.getboolean('main', 'autoMode')
+        headlessModeConfigFile = config.getboolean('main', 'headless')
+        loggingModeConfigFile = config.getboolean('main', 'logging')
+        herokuModeConfigFile = config.getboolean('main', 'heroku')
+
+        if autoModeConfigFile is True:
+            mainAutomatic(usernameConfigFile, passwordConfigFile, courseConfigFile, headlessModeConfigFile,
+                          herokuModeConfigFile, loggingModeConfigFile)
+        else:
+            mainManual(usernameConfigFile, passwordConfigFile, courseConfigFile, headlessModeConfigFile,
+                       loggingModeConfigFile, herokuModeConfigFile)
     else:
         if args.automatic is True:
             mainAutomatic(args.username, args.password, args.course, args.headless, args.heroku, args.logging)
         else:
             mainManual(args.username, args.password, args.course, args.headless, args.logging, args.heroku)
 
-    # CONFIG FILE (config.ini)
-    config = ConfigParser(allow_no_value=True)
-    config.read('config.ini')
-
-    usernameConfigFile = config.get('main', 'username')
-    passwordConfigFile = config.get('main', 'password')
-    courseConfigFile = config.get('main', 'course')
-    autoModeConfigFile = config.getboolean('main', 'autoMode')
-    headlessModeConfigFile = config.getboolean('main', 'headless')
-    loggingModeConfigFile = config.getboolean('main', 'logging')
-    herokuModeConfigFile = config.getboolean('main', 'heroku')
-
-    if autoModeConfigFile is True:
-        mainAutomatic(usernameConfigFile, passwordConfigFile, courseConfigFile, headlessModeConfigFile,
-                      herokuModeConfigFile, loggingModeConfigFile)
-    else:
-        mainManual(usernameConfigFile, passwordConfigFile, courseConfigFile, headlessModeConfigFile,
-                   loggingModeConfigFile, herokuModeConfigFile)
-
 
 def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging, isHeroku):
+    """
+    The main function of the Manual Mode. In this mode, the user can insert the course to reserve, or pass it as an
+    argument, and the reservation is then made and program exited.
+    :param inputUsername: the website username
+    :param inputPassword: the website password
+    :param inputCourse: the course to reserve
+    :param isHeadless: headless mode boolean condition
+    :param isLogging: logging mode boolean condition
+    :param isHeroku: heroku mode boolean condition
+    """
     # Initialize loggin format
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
@@ -107,6 +114,16 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging,
 
 
 def mainAutomatic(inputUsername, inputPassword, inputCourse, isHeadless, isHeroku, isLogging):
+    """
+    The main function of the Automatic Mode. In this mode, course reservations are performed automatically on a specific
+    date and time (like Friday at 08:00). The course to reserve is already specified in the schedule() function
+    :param inputUsername: the website username
+    :param inputPassword: the website password
+    :param inputCourse: the course to reserve
+    :param isHeadless: headless mode boolean condition
+    :param isHeroku: heroku mode boolean condition
+    :param isLogging: logging mode boolean condition
+    """
     # Initialize loggin format
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 

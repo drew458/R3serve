@@ -61,7 +61,7 @@ def reserveCourse(driver, course_to_reserve):
                     time.sleep(3)
                     modal = driver3.find_element_by_id("partialQuestionYesNo")
                     modal.find_element_by_id("partialQuestionYesNoConfirmButton").click()
-                    time.sleep(10)
+                    time.sleep(3)
 
                 if driver3.find_element_by_xpath("//h1[contains(text(), 'Dettagli prenotazione')]").is_displayed():
                     print("Done!\n")

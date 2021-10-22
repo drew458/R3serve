@@ -5,7 +5,6 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-# from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support import expected_conditions as EC
 
 try:
@@ -37,8 +36,6 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
     if isHeadless is True:
         options.add_argument('--headless')
 
-    # driver = webdriver.Chrome(chrome_options=options, executable_path=ChromeDriverManager(log_level=0,
-    #                                                                                       print_first_line=False).install())
     driver = webdriver.Chrome(chrome_options=options)
 
     logging.info("Browser initialized. Reaching the website...")
@@ -48,7 +45,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
 
     logging.info("Entering username and password...")
 
-    # Prioritize input username and password. If we are in heroku mode, then search them in environment
+    # Prioritize username and password passed as argument. If we are in heroku mode, then search them in environment
     # variables. If they aren't found in environment variables, then look for them in the Cred.py file
     username = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'userName')))
     username.clear()

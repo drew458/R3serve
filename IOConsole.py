@@ -171,7 +171,7 @@ def courseParsing(inserted_course):
 
 def composeCourseXPath(selected_course):
     """
-    Composes the XPATH of the course
+    Composes the XPATH of the course in the reservation list
     :param selected_course: the course name
     :return: the XPATH
     """
