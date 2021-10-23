@@ -94,10 +94,11 @@ def reserve(driver, selected_course):
                 another_course_name = IOConsole.insertNewCourse()
                 reserve(driver, another_course_name)
             else:
-                logging.info('Quitting the program...')
-                driver.quit()
-                logging.info("Driver thrown away, I'm gonna die")
-                sys.exit()
+                return
+                #logging.info('Quitting the program...')
+                #driver.quit()
+                #logging.info("Driver thrown away, I'm gonna die")
+                #sys.exit()
         else:
             remainingSeatsInt = int(remainingSeatsString)
             if remainingSeatsInt == 0:

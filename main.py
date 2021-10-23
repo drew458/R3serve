@@ -7,6 +7,7 @@ import Automation
 import IOConsole
 import Login
 import Worker
+import Stats
 
 
 def main():
@@ -77,6 +78,9 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging,
     :param isLogging: logging mode boolean condition
     :param isHeroku: heroku mode boolean condition
     """
+    # start the timer for the execution statistics 
+    timer_start = Stats.performanceCounter()
+
     # Initialize loggin format
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
@@ -106,6 +110,10 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging,
 
     # Reserve the lesson
     Worker.reserve(driver, selected_course)
+
+    # finish the timer for execution statistics and print result
+    timer_finish = Stats.performanceCounter()
+    Stats.printPerformanceResult(Stats.getResult(timer_start, timer_finish))
 
     # Quit the program
     logging.info('Quitting the program...')
