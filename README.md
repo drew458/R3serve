@@ -8,9 +8,22 @@ A program to reserve one or more lesson in the  [student website (GOMP)](https:/
 modules by running in Command Line Interface:
   * `pip install -r requirements.txt`
 
-To run the script, open Command Line Interface in the folder you downloaded or cloned and run `python main.py`.
+## Usage
 
-## Options
+To run the script, open Command Line Interface in the folder you downloaded or cloned and run `python main.py`.  
+You can provide <strong> username </strong>, <strong> password </strong> and the <strong> course to reserve </strong> in 3 different ways:
+* In the config.ini file
+* As a Command Line Argument (see below)
+* Inserting it when asked by the program, if none of methods above is chosen  
+
+The script can run in various modes:
+* <strong>Automatic Course Reserve</strong>: course reservations are performed automatically on a specific date and time (like Friday at 08:00).   
+The course to reserve is already specified in the schedule() function.
+* <strong>Headless</strong>: do not open the browser to perform the task
+* <strong>Logging</strong>: the script prints some logging while running
+* <strong>Heroku</strong>: little adjustments for when the script is running on Heroku
+
+## Command Line arguments
 The program accepts the following parameters when launching:
 
     -h, --help                   

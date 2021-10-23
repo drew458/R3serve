@@ -7,11 +7,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-try:
-    import static.Cred as Cred
-except ModuleNotFoundError:
-    pass
-
 
 def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result):
     """
@@ -60,8 +55,9 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
         except KeyError or pathUsernameString is None:
             logging.info("Username environment variable not found!")
     else:
-        logging.info("Log in via default username")
-        username.send_keys(Cred.username)
+        logging.info("Log in via user prompted username")
+        promptedUsername = input("Insert you username...")
+        username.send_keys(promptedUsername)
 
     password = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'password')))
     password.clear()
@@ -76,8 +72,9 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
         except KeyError or pathPasswordString is None:
             logging.info("Password environment variable not found!")
     else:
-        logging.info("Log in via default password...")
-        password.send_keys(Cred.password)
+        logging.info("Log in via user prompted password")
+        promptedPassword = input("Insert you password...")
+        password.send_keys(promptedPassword)
 
     # CLICK THE LOGIN BUTTON
     WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, 'loginButton'))).click()
