@@ -12,16 +12,18 @@ modules by running in Command Line Interface:
 
 To run the script, open Command Line Interface in the folder you downloaded or cloned and run `python main.py`.  
 You can provide <strong> username </strong>, <strong> password </strong> and the <strong> course to reserve </strong> in 3 different ways:
-* In the config.ini file
+* In the [config.ini](https://github.com/drew458/R3serve/blob/main/config.ini) file
 * As a Command Line Argument (see below)
 * Inserting it when asked by the program, if none of methods above is chosen  
 
-The script can run in various modes:
+Other than the default mode, the script can run in various modes:
 * <strong>Automatic Course Reserve</strong>: course reservations are performed automatically on a specific date and time (like Friday at 08:00).   
 The course to reserve is already specified in the schedule() function.
 * <strong>Headless</strong>: do not open the browser to perform the task
 * <strong>Logging</strong>: the script prints some logging while running
 * <strong>Heroku</strong>: little adjustments for when the script is running on Heroku
+
+As for the other parameters, modes can be set in the [config.ini](https://github.com/drew458/R3serve/blob/main/config.ini) file or given as Command Line arguments.
 
 ## Command Line arguments
 The program accepts the following parameters when launching:
