@@ -49,7 +49,7 @@ def clickOnCourse(driver, selected_course):
     except IOError:
         print("No such course found!")
         reserve_another = input("Do you want to insert another course? [Y/n]...\n")
-        if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
+        if reserve_another.casefold() in ("y", "yes", "si", "s"):
             another_course_name = IOConsole.insertNewCourse()
             reserve(driver, another_course_name)
         else:
@@ -85,12 +85,12 @@ def reserve(driver, selected_course):
             time.sleep(1.5)
             # remainingSeatsString = WebDriverWait(driver3, 20).until(EC.presence_of_element_located((
             #    By.XPATH, "//*[@id='slotListBody']/tr[" + iString + "]/td[7]"))).text
-            remainingSeatsString = driver3.find_element_by_xpath(
+            remainingSeats = driver3.find_element_by_xpath(
                 "//*[@id='slotListBody']/tr[" + iString + "]/td[7]").text
         except selenium.common.exceptions.NoSuchElementException:
             print("No more lessons available for this course")
             reserve_another = input("Do you want to reserve another course? [Y/n]...\n")
-            if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
+            if reserve_another.casefold() in ("y", "yes", "si", "s"):
                 another_course_name = IOConsole.insertNewCourse()
                 reserve(driver, another_course_name)
             else:
@@ -100,8 +100,7 @@ def reserve(driver, selected_course):
                 #logging.info("Driver thrown away, I'm gonna die")
                 #sys.exit()
         else:
-            remainingSeatsInt = int(remainingSeatsString)
-            if remainingSeatsInt == 0:
+            if remainingSeats in ("0"):
                 print("No more seats available")
                 continue
             else:
@@ -128,7 +127,7 @@ def reserve(driver, selected_course):
                 if driver3.find_element_by_xpath("//h1[contains(text(), 'Dettagli prenotazione')]").is_displayed():
                     reserve_another = input("Done!\n"
                                             "Do you want to reserve another lesson for this course? [Y/n]...\n")
-                    if reserve_another in ("y", "Y", "yes", "Yes", "si", "Si"):
+                    if reserve_another.casefold() in ("y", "yes", "si", "s"):
                         WebDriverWait(driver3, 20).until(EC.element_to_be_clickable((
                             By.ID, "backArrowReservs"))).click()
                         # driver3.find_element_by_id("backArrowReservs").click()
