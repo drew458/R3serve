@@ -41,7 +41,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
     logging.info("Entering username and password...")
 
     # Prioritize username and password passed as argument. If we are in heroku mode, then search them in environment
-    # variables. If they aren't found in environment variables, then look for them in the Cred.py file
+    # variables. If they aren't found in environment variables, then ask for it to the user
     username = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'userName')))
     username.clear()
     if inputUsername is not None:
@@ -56,7 +56,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
             logging.info("Username environment variable not found!")
     else:
         logging.info("Log in via user prompted username")
-        promptedUsername = input("Insert you username...")
+        promptedUsername = input("Insert you username...\n")
         username.send_keys(promptedUsername)
 
     password = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'password')))
@@ -73,7 +73,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
             logging.info("Password environment variable not found!")
     else:
         logging.info("Log in via user prompted password")
-        promptedPassword = input("Insert you password...")
+        promptedPassword = input("Insert you password...\n")
         password.send_keys(promptedPassword)
 
     # CLICK THE LOGIN BUTTON

@@ -7,7 +7,7 @@ def insertCourse(input_course):
     """
     Determines the course, passed as program argument or requested as user input
     :param: the course passed as an argumente when launching the program
-    :return: the cours
+    :return: the course
     """
     if input_course is None:
         inserted_course = input("Please insert the course you want to reserve...\n")
