@@ -3,8 +3,13 @@ A program to reserve one or more lesson in the  [student website (GOMP)](https:/
 
 
 ## Installation
-* Clone this project via command line (`git clone https://github.com/drew458/PS5-scraper.git`) or [download it](https://github.com/drew458/PS5-scraper/archive/refs/heads/master.zip).
-* With [Python 3.8](https://www.python.org/downloads/release/python-380/) (or higher) installed on your computer, install the external
+Clone this project via Command Line Interface with:
+- `git clone https://github.com/drew458/r3serve.git`
+- `cd r3serve`  
+
+Or [download it](https://github.com/drew458/PS5-scraper/archive/refs/heads/master.zip).  
+
+With [Python 3.8](https://www.python.org/downloads/release/python-380/) (or higher) installed on your computer, install the external
 modules by running in Command Line Interface:
   * `pip install -r requirements.txt`
 
@@ -57,6 +62,16 @@ Example of launching:
 ```
 python main.py -u YOURUSERNAME -p YOURPASSWORD -c Fondamenti di Automatica -hl
 ```
+
+Examples
+----------
+
+  - `python main.py -h` (Print the help)
+  - `python main.py -u YOURUSERNAME -p YOURPASSWORD` (Take your username and password)
+  - `python main.py -c COURSETORESERVE` (Take the course to reserve)
+  - `python main.py -auto -hl` (Automatic reservations without opening the browser)
+
+  On Linux, use `python3` instead of `python` 
 
 
 ## Cloud deployment
