@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 import time
 
 from selenium import webdriver
@@ -31,7 +32,10 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
     if isHeadless is True:
         options.add_argument('--headless')
 
-    driver = webdriver.Chrome(chrome_options=options)
+    if sys.platform.startswith('linux'):
+        driver = webdriver.Chrome(chrome_options=options, executable_path='/usr/lib/chromium-browser/chromedriver')
+    else:
+        driver = webdriver.Chrome(chrome_options=options)
 
     logging.info("Browser initialized. Reaching the website...")
 
