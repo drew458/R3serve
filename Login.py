@@ -32,8 +32,11 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
     if isHeadless is True:
         options.add_argument('--headless')
 
-    if sys.platform.startswith('linux'):
-        driver = webdriver.Chrome(chrome_options=options, executable_path='/usr/lib/chromium-browser/chromedriver')
+    if isHeroku is False:
+        if sys.platform.startswith('linux'):
+            driver = webdriver.Chrome(chrome_options=options, executable_path='/usr/lib/chromium-browser/chromedriver')
+        else:
+            driver = webdriver.Chrome(chrome_options=options)
     else:
         driver = webdriver.Chrome(chrome_options=options)
 
