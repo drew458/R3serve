@@ -18,7 +18,7 @@ def main():
             setattr(namespace, self.dest, ' '.join(values))
 
     # COMMAND LINE ARGUMENTS
-    parser = argparse.ArgumentParser(description='Your username and passworda are needed to perform log-in')
+    parser = argparse.ArgumentParser(description='Your username and password are needed to perform log in')
     parser.add_argument("-U", "-u", "-username", "--username", default=None, type=str, help="The GOMP username")
     parser.add_argument("-P", "-p", "-password", "--password", default=None, type=str, help="The GOMP password")
     parser.add_argument("-C", "-c", "-course", "--course", default=None, type=str,
@@ -119,7 +119,7 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging,
                 inputCourse = None
                 continue
             else:
-                print("No matching course for what you inserted.")
+                print("No matching course for what you inserted")
                 continue
         break
 
@@ -151,8 +151,6 @@ def mainAutomatic(inputUsername, inputPassword, inputCourse, isHeadless, isHerok
     :param isHeroku: heroku mode boolean condition
     :param isLogging: logging mode boolean condition
     """
-    # Initialize loggin format
-    logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
     # Start the automatic reserve thread
     automatic_reservations = Thread(target=Automation.scheduler, args=(inputUsername, inputPassword,
