@@ -11,7 +11,6 @@ import Stats
 
 
 def main():
-
     # this allows to insert the course full name (even with whitespaces) without need to add ""
     # the course name is inferred from the argument between two options (e.g. -c)
     class MyAction(argparse.Action):
@@ -38,33 +37,53 @@ def main():
 
     args = parser.parse_args()
 
-    # If no args are provided (checking if all the arguments are in their default state), take parameters from config file
-    if args.username is None and args.password is None and args.course is None and args.automatic is False \
-            and args.headless is False and args.logging is False and args.heroku is False:
+    # CONFIG FILE (config.ini)
+    config = ConfigParser(allow_no_value=True)
+    config.read('config.ini')
 
-        # CONFIG FILE (config.ini)
-        config = ConfigParser(allow_no_value=True)
-        config.read('config.ini')
-
-        usernameConfigFile = config.get('main', 'username')
-        passwordConfigFile = config.get('main', 'password')
-        courseConfigFile = config.get('main', 'course')
-        autoModeConfigFile = config.getboolean('main', 'autoMode')
-        headlessModeConfigFile = config.getboolean('main', 'headless')
-        loggingModeConfigFile = config.getboolean('main', 'logging')
-        herokuModeConfigFile = config.getboolean('main', 'heroku')
-
-        if autoModeConfigFile is True:
-            mainAutomatic(usernameConfigFile, passwordConfigFile, courseConfigFile, headlessModeConfigFile,
-                          herokuModeConfigFile, loggingModeConfigFile)
-        else:
-            mainManual(usernameConfigFile, passwordConfigFile, courseConfigFile, headlessModeConfigFile,
-                       loggingModeConfigFile, herokuModeConfigFile)
+    # If arguments given from console are NOT in their default state, use them for the execution. Otherwise, look for
+    # them in the config file
+    if args.username is not None:
+        usernamePassed = args.username
     else:
-        if args.automatic is True:
-            mainAutomatic(args.username, args.password, args.course, args.headless, args.heroku, args.logging)
-        else:
-            mainManual(args.username, args.password, args.course, args.headless, args.logging, args.heroku)
+        usernamePassed = config.get('main', 'username')
+
+    if args.password is not None:
+        passwordPassed = args.password
+    else:
+        passwordPassed = config.get('main', 'password')
+
+    if args.course is not None:
+        coursePassed = args.course
+    else:
+        coursePassed = config.get('main', 'course')
+
+    if args.automatic is not False:
+        autoModePassed = args.automatic
+    else:
+        autoModePassed = config.getboolean('main', 'autoMode')
+
+    if args.headless is not False:
+        headlessModePassed = args.headless
+    else:
+        headlessModePassed = config.getboolean('main', 'headless')
+
+    if args.logging is not False:
+        loggingModePassed = args.logging
+    else:
+        loggingModePassed = config.getboolean('main', 'logging')
+
+    if args.heroku is not False:
+        herokuModePassed = args.heroku
+    else:
+        herokuModePassed = config.getboolean('main', 'heroku')
+
+    if autoModePassed is True:
+        mainAutomatic(usernamePassed, passwordPassed, coursePassed, headlessModePassed,
+                      herokuModePassed, loggingModePassed)
+    else:
+        mainManual(usernamePassed, passwordPassed, coursePassed, headlessModePassed,
+                   loggingModePassed, herokuModePassed)
 
 
 def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging, isHeroku):
