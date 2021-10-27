@@ -1,5 +1,5 @@
 # R3serve
-A program to reserve one or more lesson in the  [student website (GOMP)](https://gomp.uniroma3.it/Login?ReturnUrl=%2f).
+A program to reserve one or more lesson in the  [student website (GOMP)](https://gomp.uniroma3.it/Login?ReturnUrl=%2f), manually (inserting the course when launching the program) or programmatically (inserting which courses to reserve in which days, and keep the program always running).
 
 
 ## Installation
