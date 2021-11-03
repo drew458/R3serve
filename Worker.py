@@ -69,10 +69,11 @@ def reserve(driver, selected_course):
     driver.refresh()
 
     # GO TO COURSE RESERVATION LIST
-    driver2 = goToCourseReservationList(driver)
+    # driver2 = goToCourseReservationList(driver)
+    driver.get("https://gomp.uniroma3.it/StudentSpaceReserv")
 
     # CLICK ON THE COURSE
-    driver3 = clickOnCourse(driver2, selected_course)
+    driver3 = clickOnCourse(driver, selected_course)
 
     # CHECK IF SEATS ARE STILL AVAILABLE
     WebDriverWait(driver3, 20).until(EC.presence_of_element_located((By.ID, 'slotListBody')))
