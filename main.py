@@ -34,6 +34,9 @@ def main():
     parser.add_argument("-heroku", "--heroku", action="store_true",
                         help="Run the program in Heroku mode (see for login credentials in the "
                              "environment variables")
+    parser.add_argument("-B", "-b", "-biblio", "-lib", "--library", default=None, type=str,
+                        help="The library hour to reserve. Insert only the start hour (ex. if the reservation time "
+                             "slot is 14.00-15.00, only insert 14.00 or 14)")
 
     args = parser.parse_args()
 
@@ -78,21 +81,24 @@ def main():
     else:
         herokuModePassed = config.getboolean('main', 'heroku')
 
+    bilioHourPassed = args.library
+
     if autoModePassed is True:
         mainAutomatic(usernamePassed, passwordPassed, coursePassed, headlessModePassed,
                       herokuModePassed, loggingModePassed)
     else:
-        mainManual(usernamePassed, passwordPassed, coursePassed, headlessModePassed,
+        mainManual(usernamePassed, passwordPassed, coursePassed, bilioHourPassed, headlessModePassed,
                    loggingModePassed, herokuModePassed)
 
 
-def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging, isHeroku):
+def mainManual(inputUsername, inputPassword, inputCourse, biblioHour, isHeadless, isLogging, isHeroku):
     """
     The main function of the Manual Mode. In this mode, the user can insert the course to reserve, or pass it as an
     argument, and the reservation is then made and program exited.
     :param inputUsername: the website username
     :param inputPassword: the website password
     :param inputCourse: the course to reserve
+    :param biblioHour: the library hour to reserve
     :param isHeadless: headless mode boolean condition
     :param isLogging: logging mode boolean condition
     :param isHeroku: heroku mode boolean condition
@@ -108,6 +114,23 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging,
     login_thread = Thread(target=Login.login, args=(inputUsername, inputPassword, isHeadless,
                                                     isHeroku, isLogging, results))
     login_thread.start()
+
+    if biblioHour is not None:
+        login_thread.join()
+        driver = results[0]
+
+        # Reserve the library time slot
+        Worker.reserveBiblio(driver, biblioHour)
+
+        # finish the timer for execution statistics and print result
+        timer_finish = Stats.performanceCounter()
+        Stats.printPerformanceResult(Stats.getResult(timer_start, timer_finish))
+
+        # Quit the program
+        logging.info('Quitting the program...')
+        driver.quit()
+        logging.info("Driver thrown away, I'm gonna die")
+        return
 
     # Insert the course
     while True:
