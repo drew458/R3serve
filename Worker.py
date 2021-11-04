@@ -161,13 +161,11 @@ def reserveBiblio(driver, biblioHour):
     # driver2 = goToCourseReservationList(driver)
     time.sleep(random.uniform(0.3, 1.3))
 
-    while True:
-        try:
-            biblioHourParsed = IOConsole.biblioParsing(biblioHour)
-        except IOError:
-            print("No matching library time slot for the hour you inserted")
-            return
-        break
+    try:
+        biblioHourParsed = IOConsole.biblioParsing(biblioHour)
+    except IOError:
+        print("No matching library time slot for the hour you inserted")
+        return
 
     biblioReservationCycle(driver, biblioHourParsed)
 
@@ -189,7 +187,7 @@ def biblioReservationCycle(driver, biblioHour):
 
     time.sleep(random.uniform(0.3, 1.3))
     # CLICK ON THE ENGINEERING DEPARTMENT LIBRARY
-    WebDriverWait(driver, 3).until(
+    xPathToGet = WebDriverWait(driver, 3).until(
         EC.element_to_be_clickable((
             By.XPATH, "//*[contains(text(), 'BIBLIOTECA SCIENTIFICA TECNOLOGICA SEDE CENTRALE - via della Vasca"
                       " Navale, 79-81 - Uniroma3')]"))).click()

@@ -182,19 +182,19 @@ def biblioParsing(biblioHour):
     elif biblioHour in ("12.00", "12,00", "12"):
         i = 4
         return i
-    elif biblioHour in ("14.00", "14,00", "14"):
+    elif biblioHour in ("14.00", "14,00", "14", "2"):
         i = 5
         return i
-    elif biblioHour in ("15.00", "15,00", "15"):
+    elif biblioHour in ("15.00", "15,00", "15", "3"):
         i = 6
         return i
-    elif biblioHour in ("16.00", "16,00", "16"):
+    elif biblioHour in ("16.00", "16,00", "16", "4"):
         i = 7
         return i
-    elif biblioHour in ("17.00", "17,00", "17"):
+    elif biblioHour in ("17.00", "17,00", "17", "5"):
         i = 8
         return i
-    elif biblioHour in ("18.00", "18,00", "18"):
+    elif biblioHour in ("18.00", "18,00", "18", "6"):
         i = 9
         return i
     else:
