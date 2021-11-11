@@ -48,8 +48,10 @@ def main():
     # them in the config file
     if args.username is not None:
         usernamePassed = args.username
+        usernamePassed.upper()
     else:
         usernamePassed = config.get('main', 'username')
+        usernamePassed.upper()
 
     if args.password is not None:
         passwordPassed = args.password
@@ -81,13 +83,13 @@ def main():
     else:
         herokuModePassed = config.getboolean('main', 'heroku')
 
-    bilioHourPassed = args.library
+    biblioHourPassed = args.library
 
     if autoModePassed is True:
         mainAutomatic(usernamePassed, passwordPassed, coursePassed, headlessModePassed,
                       herokuModePassed, loggingModePassed)
     else:
-        mainManual(usernamePassed, passwordPassed, coursePassed, bilioHourPassed, headlessModePassed,
+        mainManual(usernamePassed, passwordPassed, coursePassed, biblioHourPassed, headlessModePassed,
                    loggingModePassed, herokuModePassed)
 
 
