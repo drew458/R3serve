@@ -13,6 +13,8 @@ import Stats
 def main():
     # this allows to insert the course full name (even with whitespaces) without need to add ""
     # the course name is inferred from the argument between two options (e.g. -c)
+    global usernamePassed
+
     class MyAction(argparse.Action):
         def __call__(self, parser, namespace, values, option_string=None):
             setattr(namespace, self.dest, ' '.join(values))
@@ -48,10 +50,16 @@ def main():
     # them in the config file
     if args.username is not None:
         tempUsername = args.username
-        usernamePassed = tempUsername.upper()
+        if tempUsername is not None:
+            usernamePassed = tempUsername.upper()
+        else:
+            usernamePassed = tempUsername
     else:
         tempUsername = config.get('main', 'username')
-        usernamePassed = tempUsername.upper()
+        if tempUsername is not None:
+            usernamePassed = tempUsername.upper()
+        else:
+            usernamePassed = tempUsername
 
     if args.password is not None:
         passwordPassed = args.password
@@ -105,6 +113,7 @@ def mainManual(inputUsername, inputPassword, inputCourse, biblioHour, isHeadless
     :param isLogging: logging mode boolean condition
     :param isHeroku: heroku mode boolean condition
     """
+
     # start the timer for the execution statistics 
     timer_start = Stats.performanceCounter()
 
@@ -117,6 +126,7 @@ def mainManual(inputUsername, inputPassword, inputCourse, biblioHour, isHeadless
                                                     isHeroku, isLogging, results))
     login_thread.start()
 
+    # If the user wants to reserve only the library
     if biblioHour is not None:
         login_thread.join()
         driver = results[0]
@@ -134,23 +144,40 @@ def mainManual(inputUsername, inputPassword, inputCourse, biblioHour, isHeadless
         logging.info("Driver thrown away, I'm gonna die")
         return
 
-    # Insert the course
-    while True:
-        try:
-            selected_course = IOConsole.insertCourse(inputCourse)
-        except IOError:
-            if inputCourse is not None:
-                print("The course passed as argument does not exist")
-                inputCourse = None
-                continue
-            else:
-                print("No matching course for what you inserted")
-                continue
-        break
+    if inputUsername is None or inputPassword is None:
+        login_thread.join()
+        driver = results[0]
 
-    # retrieve result from the login thread
-    login_thread.join()
-    driver = results[0]
+        # Insert the course
+        while True:
+            try:
+                selected_course = IOConsole.insertCourse(inputCourse)
+            except IOError:
+                if inputCourse is not None:
+                    print("The course passed as argument does not exist")
+                    inputCourse = None
+                    continue
+                else:
+                    print("No matching course for what you inserted")
+                    continue
+            break
+    else:
+        # Insert the course
+        while True:
+            try:
+                selected_course = IOConsole.insertCourse(inputCourse)
+            except IOError:
+                if inputCourse is not None:
+                    print("The course passed as argument does not exist")
+                    inputCourse = None
+                    continue
+                else:
+                    print("No matching course for what you inserted")
+                    continue
+            break
+        # retrieve result from the login thread
+        login_thread.join()
+        driver = results[0]
 
     # Reserve the lesson
     Worker.reserve(driver, selected_course)

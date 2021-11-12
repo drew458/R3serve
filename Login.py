@@ -27,7 +27,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
 
     # DEFINE WEB DRIVER
     options = webdriver.ChromeOptions()
-    options.add_argument('--log-level=3')
+    options.add_argument('--log-level=3')   # hide logs
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     if isHeadless is True:
         options.add_argument('--headless')
@@ -63,7 +63,8 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
             logging.info("Username environment variable not found!")
     else:
         logging.info("Log in via user prompted username")
-        promptedUsername = input("Insert you username...\n")
+        tempUsername = input("Insert your username...\n")
+        promptedUsername = tempUsername.upper()
         username.send_keys(promptedUsername)
 
     password = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'password')))
@@ -80,7 +81,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
             logging.info("Password environment variable not found!")
     else:
         logging.info("Log in via user prompted password")
-        promptedPassword = input("Insert you password...\n")
+        promptedPassword = input("Insert your password...\n")
         password.send_keys(promptedPassword)
 
     # CLICK THE LOGIN BUTTON
