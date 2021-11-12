@@ -47,11 +47,11 @@ def main():
     # If arguments given from console are NOT in their default state, use them for the execution. Otherwise, look for
     # them in the config file
     if args.username is not None:
-        usernamePassed = args.username
-        usernamePassed.upper()
+        tempUsername = args.username
+        usernamePassed = tempUsername.upper()
     else:
-        usernamePassed = config.get('main', 'username')
-        usernamePassed.upper()
+        tempUsername = config.get('main', 'username')
+        usernamePassed = tempUsername.upper()
 
     if args.password is not None:
         passwordPassed = args.password
