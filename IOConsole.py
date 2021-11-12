@@ -20,13 +20,19 @@ def insertCourse(input_course):
 
 def insertNewCourse():
     """
-    Determines thwe course via user input
+    Determines the course via user input
     :return: the course
     """
-    inserted_course = input("Please insert the course you want to reserve...\n")
+    while True:
+        inserted_course = input("Please insert the course you want to reserve...\n")
 
-    parsed_course = courseParsing(inserted_course)
-    return parsed_course
+        try:
+            parsed_course = courseParsing(inserted_course)
+        except IOError:
+            print("No matching course for what you inserted")
+            continue
+        else:
+            return parsed_course
 
 
 def courseParsing(inserted_course):
