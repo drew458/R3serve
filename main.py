@@ -124,10 +124,10 @@ def mainManual(inputUsername, inputPassword, inputCourse, biblioHour, isHeadless
     results = [None] * 2
     login_thread = Thread(target=Login.login, args=(inputUsername, inputPassword, isHeadless,
                                                     isHeroku, isLogging, results))
-    login_thread.start()
 
     # If the user wants to reserve only the library
     if biblioHour is not None:
+        login_thread.start()
         login_thread.join()
         driver = results[0]
 
@@ -144,7 +144,10 @@ def mainManual(inputUsername, inputPassword, inputCourse, biblioHour, isHeadless
         logging.info("Driver thrown away, I'm gonna die")
         return
 
-    if inputUsername is None or inputPassword is None:
+    # If the user doesn't provide username or password, the course input needs to be done AFTER the input for username
+    # and password
+    if (inputUsername is None or inputPassword is None) and inputCourse is None:
+        login_thread.start()
         login_thread.join()
         driver = results[0]
 
@@ -162,6 +165,7 @@ def mainManual(inputUsername, inputPassword, inputCourse, biblioHour, isHeadless
                     continue
             break
     else:
+        login_thread.start()
         # Insert the course
         while True:
             try:
