@@ -3,6 +3,7 @@ import os
 import sys
 import time
 import random
+import getpass
 from threading import Thread
 
 from selenium import webdriver
@@ -66,7 +67,11 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
         tempUsername = input("Insert your username...\n")
         promptedUsername = tempUsername.upper()
 
-        promptedPassword = input("Insert your password...\n")
+        try:
+            promptedPassword = getpass.getpass(prompt="Insert your password... (Note: it will not be shown while "
+                                                      "you're inserting it)\n ")
+        except getpass.GetPassWarning:
+            pass
 
         webdriver_init_thread.join()
         driver = driverResult[0]
@@ -115,8 +120,16 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
 
     # CLICK THE LOGIN BUTTON
     WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, 'loginButton'))).click()
+    time.sleep(random.uniform(0.6, 1.2))
 
-    logging.info("Login done!")
-    time.sleep(random.uniform(0.4, 0.8))
+    try:
+        if driver.find_element_by_id("errorAlert").is_displayed():
+            logging.info("Wrong username or password inserted")
+            print("Wrong username or password inserted! Now I'm gonna die...")
+            driver.quit()
+            logging.info("Driver thrown away, I'm gonna die")
+            sys.exit()
+    except Exception:
+        pass
 
     result[0] = driver
