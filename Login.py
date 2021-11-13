@@ -3,6 +3,7 @@ import os
 import sys
 import time
 import random
+from threading import Thread
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -10,22 +11,13 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result):
+def initializeWebDriverThread(isHeadless, isHeroku, driverResult):
     """
-    Performs the login into the website
-    :param inputUsername: the website username
-    :param inputPassword: the website password
+    Initializes the WebDriver and navigates to the login page.
     :param isHeadless: headless mode boolean condition
     :param isHeroku: heroku mode boolean condition
-    :param isLogging: logging mode boolean condition
-    :param result: the array containing the logged-in driver in position [0]
+    :param driverResult: the array containing the initialized driver in position [0]
     """
-    if isLogging is False:
-        logger = logging.getLogger()
-        logger.disabled = True
-
-    logging.info('Opening the login page...')
-
     # DEFINE WEB DRIVER
     options = webdriver.ChromeOptions()
     options.add_argument('--log-level=3')  # hide logs
@@ -46,44 +38,80 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
     # TARGET THE FIRST PAGE
     driver.get("https://gomp.uniroma3.it/Login?ReturnUrl=%2f")
 
-    logging.info("Entering username and password...")
+    driverResult[0] = driver
+
+
+def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result):
+    """
+    Performs the login into the website
+    :param inputUsername: the website username
+    :param inputPassword: the website password
+    :param isHeadless: headless mode boolean condition
+    :param isHeroku: heroku mode boolean condition
+    :param isLogging: logging mode boolean condition
+    :param result: the array containing the logged-in driver in position [0]
+    """
+    if isLogging is False:
+        logger = logging.getLogger()
+        logger.disabled = True
+
+    # Initialize the webdriver thread
+    driverResult = [None] * 2
+    webdriver_init_thread = Thread(target=initializeWebDriverThread, args=(isHeadless, isHeroku, driverResult))
+    webdriver_init_thread.start()
 
     # Prioritize username and password passed as argument. If we are in heroku mode, then search them in environment
     # variables. If they aren't found in environment variables, then ask for it to the user
-    username = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'userName')))
-    username.clear()
-    if inputUsername is not None:
-        logging.info("Log in via input username...")
-        username.send_keys(inputUsername)
-    elif isHeroku is True:
-        try:
-            pathUsername = os.environ["USERNAME"]
-            pathUsernameString = str(pathUsername)
-            username.send_keys(pathUsernameString)
-        except KeyError or pathUsernameString is None:
-            logging.info("Username environment variable not found!")
-    else:
-        logging.info("Log in via user prompted username")
+    if inputUsername is None or inputPassword is None:
         tempUsername = input("Insert your username...\n")
         promptedUsername = tempUsername.upper()
+
+        promptedPassword = input("Insert your password...\n")
+
+        webdriver_init_thread.join()
+        driver = driverResult[0]
+
+        logging.info("Entering username and password...")
+        username = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'userName')))
+        username.clear()
+        logging.info("Log in via user prompted username")
         username.send_keys(promptedUsername)
 
-    password = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'password')))
-    password.clear()
-    if inputPassword is not None:
-        logging.info("Log in via input password...")
-        password.send_keys(inputPassword)
-    elif isHeroku is True:
-        try:
-            pathPassword = os.environ["PASSWORD"]
-            pathPasswordString = str(pathPassword)
-            password.send_keys(pathPasswordString)
-        except KeyError or pathPasswordString is None:
-            logging.info("Password environment variable not found!")
-    else:
+        password = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'password')))
+        password.clear()
         logging.info("Log in via user prompted password")
-        promptedPassword = input("Insert your password...\n")
         password.send_keys(promptedPassword)
+
+    else:
+        webdriver_init_thread.join()
+        driver = driverResult[0]
+
+        logging.info("Entering username and password...")
+        username = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'userName')))
+        username.clear()
+        if inputUsername is not None:
+            logging.info("Log in via input username...")
+            username.send_keys(inputUsername)
+        if isHeroku is True and inputUsername is None:
+            try:
+                pathUsername = os.environ["USERNAME"]
+                pathUsernameString = str(pathUsername)
+                username.send_keys(pathUsernameString)
+            except KeyError or pathUsernameString is None:
+                logging.info("Username environment variable not found!")
+
+        password = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'password')))
+        password.clear()
+        if inputPassword is not None:
+            logging.info("Log in via input password...")
+            password.send_keys(inputPassword)
+        if isHeroku is True and inputPassword is None:
+            try:
+                pathPassword = os.environ["PASSWORD"]
+                pathPasswordString = str(pathPassword)
+                password.send_keys(pathPasswordString)
+            except KeyError or pathPasswordString is None:
+                logging.info("Password environment variable not found!")
 
     # CLICK THE LOGIN BUTTON
     WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, 'loginButton'))).click()
