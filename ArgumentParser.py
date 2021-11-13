@@ -28,7 +28,7 @@ def parse():
     parser.add_argument("-heroku", "--heroku", action="store_true",
                         help="Run the program in Heroku mode (see for login credentials in the "
                              "environment variables")
-    parser.add_argument("-B", "-b", "-biblio", "-lib", "--library", default=None, type=str,
+    parser.add_argument("-B", "-b", "-biblio", "-lib", "-library","--library", default=None, type=str,
                         help="The library hour to reserve. Insert only the start hour (ex. if the reservation time "
                              "slot is 14.00-15.00, only insert 14.00 or 14)")
 

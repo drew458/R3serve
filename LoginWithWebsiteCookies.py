@@ -1,4 +1,5 @@
 import time
+import random
 
 import selenium.common.exceptions
 from selenium import webdriver
@@ -29,7 +30,7 @@ def login():
         driver.find_element_by_id("loginButton").click()
         pickle.dump(driver.get_cookies(), open("Resources/cookies.pkl", "wb"))
 
-    time.sleep(2)
+    time.sleep(random.uniform(1.5, 2))
     try:
         driver.find_element_by_id("userName")
     except selenium.common.exceptions.NoSuchElementException:

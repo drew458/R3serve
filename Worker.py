@@ -78,7 +78,7 @@ def reserve(driver, selected_course):
 
         try:
             # TODO: find a way to remove time.sleep()
-            time.sleep(1.5)
+            time.sleep(random.uniform(0.7, 1.5))
             # remainingSeatsString = WebDriverWait(driver3, 20).until(EC.presence_of_element_located((
             #    By.XPATH, "//*[@id='slotListBody']/tr[" + iString + "]/td[7]"))).text
             remainingSeats = driver3.find_element_by_xpath(
@@ -118,7 +118,7 @@ def reserve(driver, selected_course):
 
                 # TODO: find a way to incorporate is_displayed() function into WebDriverWait, so time.sleep()
                 #   can be removed
-                time.sleep(1.5)
+                time.sleep(random.uniform(1, 1.5))
                 if driver3.find_element_by_xpath("//h1[contains(text(), 'Dettagli prenotazione')]").is_displayed():
                     reserve_another = input("Done!\n"
                                             "Do you want to reserve another lesson for this course? [Y/n]...\n")

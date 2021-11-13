@@ -1,5 +1,6 @@
 import logging
 import time
+import random
 
 import schedule
 import selenium
@@ -16,7 +17,7 @@ def reserveCourse(driver, course_to_reserve):
     :param course_to_reserve: the already parsed course name
     """
     driver.refresh()
-    time.sleep(3)
+    time.sleep(random.uniform(1, 3))
 
     # GO TO COURSE RESERVATION LIST
     driver2 = Worker.goToCourseReservationList(driver)
@@ -35,7 +36,7 @@ def reserveCourse(driver, course_to_reserve):
 
         try:
             # TODO: find a way to remove time.sleep(3)
-            time.sleep(1.5)
+            time.sleep(random.uniform(0.7, 1.5))
             remainingSeatsString = table2.find_element_by_xpath(
                 "//*[@id='slotListBody']/tr[" + iString + "]/td[7]").text
         except selenium.common.exceptions.NoSuchElementException:
@@ -58,10 +59,10 @@ def reserveCourse(driver, course_to_reserve):
                     continue
                 else:
                     calendar.click()
-                    time.sleep(3)
+                    time.sleep(random.uniform(1, 2))
                     modal = driver3.find_element_by_id("partialQuestionYesNo")
                     modal.find_element_by_id("partialQuestionYesNoConfirmButton").click()
-                    time.sleep(3)
+                    time.sleep(random.uniform(1, 2))
 
                 if driver3.find_element_by_xpath("//h1[contains(text(), 'Dettagli prenotazione')]").is_displayed():
                     print("Done!\n")
@@ -142,5 +143,5 @@ def scheduler(inputUsername, inputPassword, isHeadless, isHeroku, isLogging):
 
     while True:
         schedule.run_pending()
-        time.sleep(1)
+        time.sleep(random.uniform(0.5, 1.3))
         # logging.info("AUTOMATIC reserve thread running...")

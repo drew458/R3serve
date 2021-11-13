@@ -2,6 +2,7 @@ import logging
 import os
 import sys
 import time
+import random
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -27,7 +28,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
 
     # DEFINE WEB DRIVER
     options = webdriver.ChromeOptions()
-    options.add_argument('--log-level=3')   # hide logs
+    options.add_argument('--log-level=3')  # hide logs
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     if isHeadless is True:
         options.add_argument('--headless')
@@ -88,6 +89,6 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
     WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.ID, 'loginButton'))).click()
 
     logging.info("Login done!")
-    time.sleep(0.5)
+    time.sleep(random.uniform(0.4, 0.8))
 
     result[0] = driver
