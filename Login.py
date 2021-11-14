@@ -69,7 +69,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
 
         try:
             promptedPassword = getpass.getpass(prompt="Insert your password... (Note: it will not be shown while "
-                                                      "you're inserting it)\n ")
+                                                      "you're inserting it)\n")
         except getpass.GetPassWarning:
             pass
 
