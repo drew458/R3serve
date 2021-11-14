@@ -9,10 +9,6 @@ import Worker
 import Stats
 
 
-def main():
-    ArgumentParser.parse()
-
-
 def mainManual(inputUsername, inputPassword, inputCourse, biblioHour, isHeadless, isLogging, isHeroku):
     """
     The main function of the Manual Mode. In this mode, the user can insert the course to reserve, or pass it as an
@@ -61,9 +57,11 @@ def mainManual(inputUsername, inputPassword, inputCourse, biblioHour, isHeadless
     if (inputUsername is None or inputPassword is None) and inputCourse is None:
         login_thread.start()
         login_thread.join()
+
+        # retrieve result from the login thread
         driver = results[0]
 
-        # Insert the course
+        # Ask the user to insert the course
         while True:
             try:
                 selected_course = IOConsole.insertCourse(inputCourse)
@@ -100,7 +98,7 @@ def mainManual(inputUsername, inputPassword, inputCourse, biblioHour, isHeadless
     # Reserve the lesson
     Worker.reserve(driver, selected_course)
 
-    # finish the timer for execution statistics and print result
+    # Stop the timer for execution statistics and print result
     timer_finish = Stats.performanceCounter()
     Stats.printPerformanceResult(Stats.getResult(timer_start, timer_finish))
 
@@ -126,6 +124,10 @@ def mainAutomatic(inputUsername, inputPassword, inputCourse, isHeadless, isHerok
     automatic_reservations = Thread(target=Automation.scheduler, args=(inputUsername, inputPassword,
                                                                        isHeadless, isHeroku, isLogging))
     automatic_reservations.start()
+
+
+def main():
+    ArgumentParser.parse()
 
 
 # Press the green button on the left side to run the script
