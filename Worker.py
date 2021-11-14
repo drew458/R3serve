@@ -126,7 +126,6 @@ def reserve(driver, selected_course):
                         if reserve_another.casefold() in ("y", "yes", "si", "s"):
                             WebDriverWait(driver3, 20).until(EC.element_to_be_clickable((
                                 By.ID, "backArrowReservs"))).click()
-                            # driver3.find_element_by_id("backArrowReservs").click()
                             continue
                         else:
                             break
@@ -138,7 +137,6 @@ def reserve(driver, selected_course):
                             try:
                                 WebDriverWait(driver3, 2).until(EC.element_to_be_clickable((
                                     By.ID, "backArrowReservs"))).click()
-                                # driver3.find_element_by_id("backArrowReservs").click()
                             except Exception:
                                 continue
                         else:
@@ -156,7 +154,7 @@ def reserveBiblio(driver, biblioHour):
     # GO TO COURSE RESERVATION LIST
     driver.get("https://gomp.uniroma3.it/StudentSpaceReserv")
     # driver2 = goToCourseReservationList(driver)
-    time.sleep(random.uniform(0.3, 1.3))
+    time.sleep(random.uniform(0.3, 2))
 
     try:
         biblioHourParsed = IOConsole.biblioParsing(biblioHour)
@@ -164,25 +162,22 @@ def reserveBiblio(driver, biblioHour):
         print("No matching library time slot for the hour you inserted")
         return
 
-    biblioReservationCycle(driver, biblioHourParsed)
-
-
-def biblioReservationCycle(driver, biblioHour):
-
     # CLICK ON THE DROPDOWN MENU
     select = Select(WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.ID, 'courseSelector'))))
     select.select_by_visible_text("BIBLIOTECA - PRENOTAZIONE POSTO ALL'INTERNO DELLA BIBLIOTECA")
 
+    biblioReservationCycle(driver, biblioHourParsed)
+
+
+def biblioReservationCycle(driver, biblioHour):
     biblioHourString = str(biblioHour)
 
     time.sleep(random.uniform(0.3, 1.3))
     # CLICK ON THE TIME SLOT
-    # WebDriverWait(driver2, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='courseBody']/tr[" + biblioHourString + "]"))).click()
     driver.find_element_by_xpath("//*[@id='courseBody']/tr[" + biblioHourString + "]").click()
 
-    time.sleep(random.uniform(0.3, 1.3))
     # CLICK ON THE ENGINEERING DEPARTMENT LIBRARY
-    xPathToGet = WebDriverWait(driver, 3).until(
+    WebDriverWait(driver, 3).until(
         EC.element_to_be_clickable((
             By.XPATH, "//*[contains(text(), 'BIBLIOTECA SCIENTIFICA TECNOLOGICA SEDE CENTRALE - via della Vasca"
                       " Navale, 79-81 - Uniroma3')]"))).click()
@@ -191,18 +186,38 @@ def biblioReservationCycle(driver, biblioHour):
     try:
         WebDriverWait(driver, 2).until(EC.element_to_be_clickable((
             By.ID, "partialQuestionYesNoConfirmButton"))).click()
+        time.sleep(random.uniform(1.5, 3))
     except Exception:
-        if driver.find_element_by_xpath("//h1[contains(text(), 'Dettagli prenotazione')]").is_displayed():
-            print("Library time slot already reserved!")
-            biblioHour += 1
-            biblioReservationCycle(driver, biblioHour)
+        pass
 
-    time.sleep(random.uniform(0.5, 1.3))
     if driver.find_element_by_xpath("//h1[contains(text(), 'Dettagli prenotazione')]").is_displayed():
-        print("Done!")
+        reserve_another = input("Done!\n"
+                                "Do you want to reserve the next time slot? [Y/n]...\n")
+        temp = biblioHour + 1
+        if reserve_another.casefold() in ("y", "yes", "si", "s") and temp < 10:
+            biblioHour += 1
+            WebDriverWait(driver, 20).until(EC.element_to_be_clickable((
+                By.ID, "backArrowReservs"))).click()
+            WebDriverWait(driver, 20).until(EC.element_to_be_clickable((
+                By.ID, "backArrow"))).click()
+            biblioReservationCycle(driver, biblioHour)
+        else:
+            print("Nothing more to reserve. I'm gonna die...")
+            driver.quit()
+            logging.info("Library time slot reservation done. Exiting the program...")
+            sys.exit()
     else:
-        print("Reservation cannot be completed. It is possible that the library is full at this time slot or there's"
-              " an overlapping reservation of a lesson.\n"
-              "Now I'll try to reserve the next time slot...")
+        print(
+            "Reservation of turn " + biblioHourString + " cannot be completed. It is possible that the library is full at "
+            "this time slot or there's an overlapping reservation of a lesson.\n"
+            "Now I'll try to reserve the next time slot...\n")
         biblioHour += 1
-        biblioReservationCycle(driver, biblioHour)
+        if biblioHour <= 9:
+            WebDriverWait(driver, 20).until(EC.element_to_be_clickable((
+                By.ID, "backArrow"))).click()
+            biblioReservationCycle(driver, biblioHour)
+        else:
+            print("No more time slots available! I'm gonna die")
+            driver.quit()
+            logging.info('No more time slot available. Quitting the program...')
+            sys.exit()

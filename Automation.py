@@ -4,6 +4,9 @@ import random
 
 import schedule
 import selenium
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 import IOConsole
 import Login
@@ -66,7 +69,8 @@ def reserveCourse(driver, course_to_reserve):
 
                 if driver3.find_element_by_xpath("//h1[contains(text(), 'Dettagli prenotazione')]").is_displayed():
                     print("Done!\n")
-                    driver3.find_element_by_id("backArrowReservs").click()
+                    WebDriverWait(driver3, 20).until(EC.element_to_be_clickable((
+                        By.ID, "backArrowReservs"))).click()
                     continue
                 else:
                     print("This reservation overlaps with another one in the same time slot, "
