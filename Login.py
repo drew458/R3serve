@@ -20,19 +20,21 @@ def initializeWebDriverThread(isHeadless, isHeroku, driverResult):
     :param driverResult: the array containing the initialized driver in position [0]
     """
     # DEFINE WEB DRIVER
-    options = webdriver.ChromeOptions()
-    options.add_argument('--log-level=3')  # hide logs
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--log-level=3')  # hide logs
+    dir_path = os.getcwd()
+    chrome_options.add_argument(f'user-data-dir={dir_path}/driver_user_data')   # to save the login session
+    chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
     if isHeadless is True:
-        options.add_argument('--headless')
+        chrome_options.add_argument('--headless')
 
     if isHeroku is False:
         if sys.platform.startswith('linux'):
-            driver = webdriver.Chrome(chrome_options=options, executable_path='/usr/lib/chromium-browser/chromedriver')
+            driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='/usr/lib/chromium-browser/chromedriver')
         else:
-            driver = webdriver.Chrome(chrome_options=options)
+            driver = webdriver.Chrome(chrome_options=chrome_options)
     else:
-        driver = webdriver.Chrome(chrome_options=options)
+        driver = webdriver.Chrome(chrome_options=chrome_options)
 
     logging.info("Browser initialized. Reaching the website...")
 
@@ -76,6 +78,12 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
         webdriver_init_thread.join()
         driver = driverResult[0]
 
+        # If we're already logged in via the previous session cookies, return the driver and exit the login process
+        if driver.find_element_by_id("homeIconList").is_displayed():
+            logging.info("Already logged in via the previous session cookies!")
+            result[0] = driver
+            return
+
         logging.info("Entering username and password...")
         username = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'userName')))
         username.clear()
@@ -90,6 +98,12 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
     else:
         webdriver_init_thread.join()
         driver = driverResult[0]
+
+        # If we're already logged in via the previous session cookies, return the driver and exit the login process
+        if driver.find_element_by_id("homeIconList").is_displayed():
+            logging.info("Already logged in via the previous session cookies!")
+            result[0] = driver
+            return
 
         logging.info("Entering username and password...")
         username = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'userName')))

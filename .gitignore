@@ -115,3 +115,4 @@ dmypy.json
 .idea/
 resources/cookies.pkl
 static/Cred.py
+driver_user_data/

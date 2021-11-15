@@ -207,6 +207,43 @@ def biblioParsing(biblioHour):
         return IOError
 
 
+def dayParsing(day):
+    if day in "Monday":
+        dayParsed = "Lun"
+        nextDayParsed = "Mar"
+        return dayParsed, nextDayParsed
+
+    if day in "Tuesday":
+        dayParsed = "Mar"
+        nextDayParsed = "Mer"
+        return dayParsed, nextDayParsed
+
+    if day in "Wednesday":
+        dayParsed = "Mer"
+        nextDayParsed = "Gio"
+        return dayParsed, nextDayParsed
+
+    if day in "Thursday":
+        dayParsed = "Gio"
+        nextDayParsed = "Ven"
+        return dayParsed, nextDayParsed
+
+    if day in "Friday":
+        dayParsed = "Ven"
+        nextDayParsed = "Lun"
+        return dayParsed, nextDayParsed
+
+    if day in "Saturday":
+        dayParsed = "Lun"
+        nextDayParsed = "Lun"
+        return dayParsed, nextDayParsed
+
+    if day in "Sunday":
+        dayParsed = "Lun"
+        nextDayParsed = "Lun"
+        return dayParsed, nextDayParsed
+
+
 def composeCourseXPath(selected_course):
     """
     Composes the XPATH of the course in the reservation list
@@ -215,6 +252,28 @@ def composeCourseXPath(selected_course):
     """
     a = "//tr/td[contains(text(), "
     b = "'" + selected_course + "'"
+    c = ")]"
+
+    z = a + b + c
+    return z
+
+
+def composeDayXPath(dayName):
+    dayParsed, nextDayParsed = dayParsing(dayName)
+
+    a = "//td[contains(text(), "
+    b = "'" + dayParsed + "'"
+    c = ")]"
+
+    z = a + b + c
+    return z
+
+
+def composeNextDayXPath(dayName):
+    dayParsed, nextDayParsed = dayParsing(dayName)
+
+    a = "//td[contains(text(), "
+    b = "'" + nextDayParsed + "'"
     c = ")]"
 
     z = a + b + c

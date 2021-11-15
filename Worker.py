@@ -1,3 +1,4 @@
+import datetime
 import logging
 import random
 import sys
@@ -176,11 +177,32 @@ def biblioReservationCycle(driver, biblioHour):
     # CLICK ON THE TIME SLOT
     driver.find_element_by_xpath("//*[@id='courseBody']/tr[" + biblioHourString + "]").click()
 
-    # CLICK ON THE ENGINEERING DEPARTMENT LIBRARY
-    WebDriverWait(driver, 3).until(
-        EC.element_to_be_clickable((
+    # FIND ALL THE ROWS WITH THE LIBRARY NAME
+    libraryRows = WebDriverWait(driver, 3).until(
+        EC.visibility_of_any_elements_located((
             By.XPATH, "//*[contains(text(), 'BIBLIOTECA SCIENTIFICA TECNOLOGICA SEDE CENTRALE - via della Vasca"
-                      " Navale, 79-81 - Uniroma3')]"))).click()
+                      " Navale, 79-81 - Uniroma3')]")))
+    i = 0
+    iMax = len(libraryRows)
+
+    dayName = datetime.datetime.now().strftime("%A")
+
+    while i < iMax:
+        nameOfLibrary = libraryRows[i]
+
+        # GET THE ENTIRE ROW OF THE RESERVATION
+        try:
+            # '..' gets the parent element
+            dateOfReservation = nameOfLibrary.find_element_by_xpath('..')
+        except Exception:
+            print("Can't find parent element!!")
+
+        # Check if the reservation row matches the day of the week
+        try:
+            nextDayXPath = IOConsole.composeNextDayXPath(dayName)
+            dateOfReservation.find_element_by_xpath(nextDayXPath)
+        except Exception:
+            print("Can't find the precise day of the week!!")
 
     # CLICK ON THE MODAL "YES" BUTTON
     try:
@@ -209,8 +231,8 @@ def biblioReservationCycle(driver, biblioHour):
     else:
         print(
             "Reservation of turn " + biblioHourString + " cannot be completed. It is possible that the library is full at "
-            "this time slot or there's an overlapping reservation of a lesson.\n"
-            "Now I'll try to reserve the next time slot...\n")
+                                                        "this time slot or there's an overlapping reservation of a lesson.\n"
+                                                        "Now I'll try to reserve the next time slot...\n")
         biblioHour += 1
         if biblioHour <= 9:
             WebDriverWait(driver, 20).until(EC.element_to_be_clickable((
