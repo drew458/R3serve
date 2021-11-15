@@ -90,7 +90,7 @@ def launcher(course_to_reserve, inputUsername, inputPassword, isHeadless, isHero
     results = [None] * 2
     Login.login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, results)
     driver = results[0]
-    parsed_course_to_reserve = IOConsole.courseParsing(course_to_reserve)
+    parsed_course_to_reserve = IOConsole.courseNameParsing(course_to_reserve)
     reserveCourse(driver, parsed_course_to_reserve)
 
 

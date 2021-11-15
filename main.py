@@ -9,7 +9,7 @@ import Worker
 import Stats
 
 
-def mainManual(inputUsername, inputPassword, inputCourse, biblioHour, isHeadless, isLogging, isHeroku):
+def mainManual(inputUsername, inputPassword, inputCourse, biblioDay, biblioHour, isHeadless, isLogging, isHeroku):
     """
     The main function of the Manual Mode. In this mode, the user can insert the course to reserve, or pass it as an
     argument, and the reservation is then made and program exited.
@@ -33,14 +33,14 @@ def mainManual(inputUsername, inputPassword, inputCourse, biblioHour, isHeadless
     login_thread = Thread(target=Login.login, args=(inputUsername, inputPassword, isHeadless,
                                                     isHeroku, isLogging, results))
 
-    # If the user wants to reserve only the library
+    # If the user wants to reserve only the library (BIBLIO MODE)
     if biblioHour is not None:
         login_thread.start()
         login_thread.join()
         driver = results[0]
 
         # Reserve the library time slot
-        Worker.reserveBiblio(driver, biblioHour)
+        Worker.reserveBiblio(driver, biblioDay, biblioHour)
 
         # finish the timer for execution statistics and print result
         timer_finish = Stats.performanceCounter()

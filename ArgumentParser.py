@@ -7,6 +7,7 @@ from main import mainAutomatic, mainManual
 def parse():
     # this allows to insert the course full name (even with whitespaces) without need to add ""
     # the course name is inferred from the argument between two options (e.g. -c sistemi operativi -hl)
+
     class MyAction(argparse.Action):
         def __call__(self, parser, namespace, values, option_string=None):
             setattr(namespace, self.dest, ' '.join(values))
@@ -23,12 +24,14 @@ def parse():
     parser.add_argument("-hl", "-headless", "--headless", action="store_true",
                         help="Don't open the browser for the whole task "
                              "(Headless mode)")
-    parser.add_argument("-L", "-l", "-logging", "--logging", action="store_true",
+    parser.add_argument("-L", "-l", "-log", "-logging", "--logging", action="store_true",
                         help="Enable logging")
     parser.add_argument("-heroku", "--heroku", action="store_true",
                         help="Run the program in Heroku mode (see for login credentials in the "
                              "environment variables")
-    parser.add_argument("-B", "-b", "-biblio", "-lib", "-library", "--library", default=None, type=str,
+    parser.add_argument("-D", "-d", "-day", "-libraryday", "--libraryDay", default=None, type=str,
+                        help="The library day to reserve. Saturday and Sunday are not allowed")
+    parser.add_argument("-hr", "-hour", "-libraryhour", "--libraryHour", default=None, type=str,
                         help="The library hour to reserve. Insert only the start hour (ex. if the reservation time "
                              "slot is 14.00-15.00, only insert 14.00 or 14)")
 
@@ -83,11 +86,13 @@ def parse():
     else:
         herokuModePassed = config.getboolean('main', 'heroku')
 
-    biblioHourPassed = args.library
+    biblioDayPassed = args.libraryDay
+
+    biblioHourPassed = args.libraryHour
 
     if autoModePassed is True:
         mainAutomatic(usernamePassed, passwordPassed, coursePassed, headlessModePassed,
                       herokuModePassed, loggingModePassed)
     else:
-        mainManual(usernamePassed, passwordPassed, coursePassed, biblioHourPassed, headlessModePassed,
+        mainManual(usernamePassed, passwordPassed, coursePassed, biblioDayPassed, biblioHourPassed, headlessModePassed,
                    loggingModePassed, herokuModePassed)

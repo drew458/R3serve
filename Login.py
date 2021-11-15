@@ -6,6 +6,7 @@ import random
 import getpass
 from threading import Thread
 
+import selenium.common.exceptions
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -79,10 +80,14 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
         driver = driverResult[0]
 
         # If we're already logged in via the previous session cookies, return the driver and exit the login process
-        if driver.find_element_by_id("homeIconList").is_displayed():
-            logging.info("Already logged in via the previous session cookies!")
-            result[0] = driver
-            return
+        try:
+            if driver.find_element_by_id("homeIconList").is_displayed():
+                logging.info("Already logged in via the previous session cookies!")
+                result[0] = driver
+                return
+        except selenium.common.exceptions.NoSuchElementException:
+            logging.info("Proceding with normal login...")
+            pass
 
         logging.info("Entering username and password...")
         username = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'userName')))
@@ -100,10 +105,14 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
         driver = driverResult[0]
 
         # If we're already logged in via the previous session cookies, return the driver and exit the login process
-        if driver.find_element_by_id("homeIconList").is_displayed():
-            logging.info("Already logged in via the previous session cookies!")
-            result[0] = driver
-            return
+        try:
+            if driver.find_element_by_id("homeIconList").is_displayed():
+                logging.info("Already logged in via the previous session cookies!")
+                result[0] = driver
+                return
+        except selenium.common.exceptions.NoSuchElementException:
+            logging.info("Proceding with normal login...")
+            pass
 
         logging.info("Entering username and password...")
         username = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'userName')))
@@ -143,7 +152,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
             driver.quit()
             logging.info("Driver thrown away, I'm gonna die")
             sys.exit()
-    except Exception:
+    except selenium.common.exceptions.NoSuchElementException:
         pass
 
     result[0] = driver

@@ -14,7 +14,7 @@ def insertCourse(input_course):
     else:
         inserted_course = input_course
 
-    parsed_course = courseParsing(inserted_course)
+    parsed_course = courseNameParsing(inserted_course)
     return parsed_course
 
 
@@ -27,7 +27,7 @@ def insertNewCourse():
         inserted_course = input("Please insert the course you want to reserve...\n")
 
         try:
-            parsed_course = courseParsing(inserted_course)
+            parsed_course = courseNameParsing(inserted_course)
         except IOError:
             print("No matching course for what you inserted")
             continue
@@ -35,7 +35,7 @@ def insertNewCourse():
             return parsed_course
 
 
-def courseParsing(inserted_course):
+def courseNameParsing(inserted_course):
     """
     Assings the user inserted course to the corrisponding course, as GOMP formats its name.
     :param: inserted_course: the user-typed course name
@@ -207,41 +207,52 @@ def biblioParsing(biblioHour):
         return IOError
 
 
+def userInsertedDayParsing(dayInserted):
+    if dayInserted.casefold() in ("lunedi", "lunedì", "lun", "monday", "mon"):
+        dayParsed = "Monday"
+        return dayParsed
+    if dayInserted.casefold() in ("martedi", "martedì", "mar", "tuesday", "tue"):
+        dayParsed = "Tuesday"
+        return dayParsed
+    if dayInserted.casefold() in ("mercoledi", "mercoledì", "mer", "wednesday", "wed"):
+        dayParsed = "Wednesday"
+        return dayParsed
+    if dayInserted.casefold() in ("giovedi", "giovedì", "gio", "thursday", "thu"):
+        dayParsed = "Thursday"
+        return dayParsed
+    if dayInserted.casefold() in ("venerdi", "venerdì", "ven", "friday", "fri"):
+        dayParsed = "Friday"
+        return dayParsed
+
+
 def dayParsing(day):
     if day in "Monday":
         dayParsed = "Lun"
-        nextDayParsed = "Mar"
-        return dayParsed, nextDayParsed
+        return dayParsed
 
     if day in "Tuesday":
         dayParsed = "Mar"
-        nextDayParsed = "Mer"
-        return dayParsed, nextDayParsed
+        return dayParsed
 
     if day in "Wednesday":
         dayParsed = "Mer"
-        nextDayParsed = "Gio"
-        return dayParsed, nextDayParsed
+        return dayParsed
 
     if day in "Thursday":
         dayParsed = "Gio"
-        nextDayParsed = "Ven"
-        return dayParsed, nextDayParsed
+        return dayParsed
 
     if day in "Friday":
         dayParsed = "Ven"
-        nextDayParsed = "Lun"
-        return dayParsed, nextDayParsed
+        return dayParsed
 
     if day in "Saturday":
         dayParsed = "Lun"
-        nextDayParsed = "Lun"
-        return dayParsed, nextDayParsed
+        return dayParsed
 
     if day in "Sunday":
         dayParsed = "Lun"
-        nextDayParsed = "Lun"
-        return dayParsed, nextDayParsed
+        return dayParsed
 
 
 def composeCourseXPath(selected_course):
@@ -259,21 +270,10 @@ def composeCourseXPath(selected_course):
 
 
 def composeDayXPath(dayName):
-    dayParsed, nextDayParsed = dayParsing(dayName)
+    dayParsed = dayParsing(dayName)
 
     a = "//td[contains(text(), "
     b = "'" + dayParsed + "'"
-    c = ")]"
-
-    z = a + b + c
-    return z
-
-
-def composeNextDayXPath(dayName):
-    dayParsed, nextDayParsed = dayParsing(dayName)
-
-    a = "//td[contains(text(), "
-    b = "'" + nextDayParsed + "'"
     c = ")]"
 
     z = a + b + c
