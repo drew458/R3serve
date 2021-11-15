@@ -30,10 +30,15 @@ def initializeWebDriverThread(isHeadless, isHeroku, driverResult):
         chrome_options.add_argument('--headless')
 
     if isHeroku is False:
-        if sys.platform.startswith('linux'):
-            driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='/usr/lib/chromium-browser/chromedriver')
+        if sys.platform.startswith('win32'):
+            driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='static/chromedriver')
+        elif sys.platform.startswith('darwin'):
+            driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='static/chromedriver-darwin')
+        elif sys.platform.startswith('linux'):
+            driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='static/chromedriver-linux')
         else:
-            driver = webdriver.Chrome(chrome_options=chrome_options)
+            logging.info("Platform not detected!")
+            return EnvironmentError
     else:
         driver = webdriver.Chrome(chrome_options=chrome_options)
 
