@@ -6,6 +6,8 @@ import random
 import getpass
 from threading import Thread
 
+from webdriver_manager.chrome import ChromeDriverManager
+
 import selenium.common.exceptions
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -30,15 +32,9 @@ def initializeWebDriverThread(isHeadless, isHeroku, driverResult):
         chrome_options.add_argument('--headless')
 
     if isHeroku is False:
-        if sys.platform.startswith('win32'):
-            driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='static/chromedriver')
-        elif sys.platform.startswith('darwin'):
-            driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='static/chromedriver-darwin')
-        elif sys.platform.startswith('linux'):
-            driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='static/chromedriver-linux')
-        else:
-            logging.info("Platform not detected!")
-            return EnvironmentError
+        driver = webdriver.Chrome(ChromeDriverManager(log_level=0, print_first_line=False, cache_valid_range=10).install(),
+                                  options=chrome_options)
+
     else:
         driver = webdriver.Chrome(chrome_options=chrome_options)
 
