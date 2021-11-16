@@ -1,7 +1,7 @@
 import argparse
 from configparser import ConfigParser
 
-from main import mainAutomatic, mainManual
+from Modes import automaticMode, manualMode
 
 
 def parse():
@@ -91,8 +91,8 @@ def parse():
     biblioHourPassed = args.libraryHour
 
     if autoModePassed is True:
-        mainAutomatic(usernamePassed, passwordPassed, coursePassed, headlessModePassed,
+        automaticMode(usernamePassed, passwordPassed, coursePassed, headlessModePassed,
                       herokuModePassed, loggingModePassed)
     else:
-        mainManual(usernamePassed, passwordPassed, coursePassed, biblioDayPassed, biblioHourPassed, headlessModePassed,
+        manualMode(usernamePassed, passwordPassed, coursePassed, biblioDayPassed, biblioHourPassed, headlessModePassed,
                    loggingModePassed, herokuModePassed)

@@ -25,8 +25,9 @@ def initializeWebDriverThread(isHeadless, isHeroku, driverResult):
     # DEFINE WEB DRIVER
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--log-level=3')  # hide logs
-    dir_path = os.getcwd()
-    chrome_options.add_argument(f'user-data-dir={dir_path}/driver_user_data')   # to save the login session
+    # TODO: saving user data folder is apparently causing strange behaviours
+    # dir_path = os.getcwd()
+    # chrome_options.add_argument(f'user-data-dir={dir_path}/driver_user_data')   # to save the login session
     chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
     if isHeadless is True:
         chrome_options.add_argument('--headless')
@@ -35,8 +36,9 @@ def initializeWebDriverThread(isHeadless, isHeroku, driverResult):
         try:
             driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='static/chromedriver')
         except Exception:
-            driver = webdriver.Chrome(ChromeDriverManager(log_level=0, print_first_line=False, cache_valid_range=10).install(),
-                                      options=chrome_options)
+            driver = webdriver.Chrome(
+                ChromeDriverManager(log_level=0, print_first_line=False, cache_valid_range=10).install(),
+                options=chrome_options)
 
     else:
         driver = webdriver.Chrome(chrome_options=chrome_options)

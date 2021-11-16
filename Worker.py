@@ -12,6 +12,12 @@ from selenium.webdriver.support import expected_conditions as EC
 
 import IOConsole
 
+from difflib import SequenceMatcher
+
+
+# def similar(a, b):
+#    return SequenceMatcher(None, a, b).ratio()
+
 
 def goToCourseReservationList(driver):
     logging.info('Going to the course reservation list...')
@@ -191,42 +197,55 @@ def biblioReservationCycle(driver, biblioDay, biblioHour):
     # CLICK ON THE TIME SLOT
     driver.find_element_by_xpath("//*[@id='courseBody']/tr[" + biblioHourString + "]").click()
 
-    # FIND ALL THE ROWS WITH THE LIBRARY NAME
-    libraryRows = WebDriverWait(driver, 3).until(
-        EC.visibility_of_any_elements_located((
-            By.XPATH, "//*[contains(text(), 'BIBLIOTECA SCIENTIFICA TECNOLOGICA SEDE CENTRALE - via della Vasca"
-                      " Navale, 79-81 - Uniroma3')]")))
-
     # If the user has inserted a day for the library reservation, use it; otherwise reserve the next day from now
     if biblioDay is not None:
         dayName = biblioDay
     else:
         dayName = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%A")
 
-    nameOfLibrary = libraryRows[0]
+    # Find all the rows with the desired day of reservation
+    nextDayXPath = IOConsole.composeDayXPath(dayName)
+    desiredDayRows = WebDriverWait(driver, 3).until(
+        EC.visibility_of_any_elements_located((By.XPATH, nextDayXPath)))
 
-    # Get the entire row of the reservation
+    # Find the rows with desired day and library
+    desiredDayAndLibraryRows = list()
+
+    for element in desiredDayRows:
+        try:
+            parentRow = element.find_element_by_xpath('..')
+            parentRowText = parentRow.text
+            rowTextRatio = SequenceMatcher(None, parentRowText, 'BIBLIOTECA SCIENTIFICA TECNOLOGICA SEDE CENTRALE - '
+                                                                'via della Vasca Navale, 79-81 - Uniroma3').ratio()
+            if 0.55 < rowTextRatio < 0.75:
+                desiredDayAndLibraryRows.append(parentRow)
+        except Exception:
+            logging.info("Error occurred when trying to match day and library!")
+            pass
+
+    # Take the first row
     try:
-        # Note: command '..' gets the parent element int the DOM
-        reservationRow = nameOfLibrary.find_element_by_xpath('..')
-    except Exception:
-        print("Can't find parent element!")
+        reservationRow = desiredDayAndLibraryRows.pop(0)
+    except IndexError:
+        logging.info("Empty list for matching day and library reservation!")
+        print("No reservation option for " + dayName + "!")
+        driver.quit()
+        logging.info("Day to reserve library not found. Exiting the program...")
+        sys.exit()
 
     # Check if the reservation row matches the desired day of the week
     try:
-        nextDayXPath = IOConsole.composeDayXPath(dayName)
-        logging.info("Looking for turn " + biblioHourString + " on " + dayName )
-        reservationRow.find_element_by_xpath(nextDayXPath)
+        logging.info("Looking for turn " + biblioHourString + " on " + dayName)
+        WebDriverWait(reservationRow, 3).until(
+            EC.element_to_be_clickable((
+                By.XPATH, "//*[contains(text(), 'BIBLIOTECA SCIENTIFICA TECNOLOGICA SEDE CENTRALE - via della Vasca"
+                          " Navale, 79-81 - Uniroma3')]"))).click()
     except Exception:
         print("No reservation option for " + dayName + "!")
         driver.quit()
         logging.info("Day to reserve library not found. Exiting the program...")
         sys.exit()
-    else:
-        WebDriverWait(reservationRow, 3).until(
-            EC.element_to_be_clickable((
-                By.XPATH, "//*[contains(text(), 'BIBLIOTECA SCIENTIFICA TECNOLOGICA SEDE CENTRALE - via della Vasca"
-                          " Navale, 79-81 - Uniroma3')]"))).click()
+
 
     # CLICK ON THE MODAL "YES" BUTTON
     try:
