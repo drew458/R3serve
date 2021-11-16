@@ -32,8 +32,11 @@ def initializeWebDriverThread(isHeadless, isHeroku, driverResult):
         chrome_options.add_argument('--headless')
 
     if isHeroku is False:
-        driver = webdriver.Chrome(ChromeDriverManager(log_level=0, print_first_line=False, cache_valid_range=10).install(),
-                                  options=chrome_options)
+        try:
+            driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='static/chromedriver')
+        except Exception:
+            driver = webdriver.Chrome(ChromeDriverManager(log_level=0, print_first_line=False, cache_valid_range=10).install(),
+                                      options=chrome_options)
 
     else:
         driver = webdriver.Chrome(chrome_options=chrome_options)
@@ -93,12 +96,12 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
         logging.info("Entering username and password...")
         username = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'userName')))
         username.clear()
-        logging.info("Log in via user prompted username")
+        logging.info("Login via user prompted username")
         username.send_keys(promptedUsername)
 
         password = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'password')))
         password.clear()
-        logging.info("Log in via user prompted password")
+        logging.info("Login via user prompted password")
         password.send_keys(promptedPassword)
 
     else:
@@ -119,7 +122,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
         username = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'userName')))
         username.clear()
         if inputUsername is not None:
-            logging.info("Log in via input username...")
+            logging.info("Login via input username...")
             username.send_keys(inputUsername)
         if isHeroku is True and inputUsername is None:
             try:
@@ -132,7 +135,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
         password = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'password')))
         password.clear()
         if inputPassword is not None:
-            logging.info("Log in via input password...")
+            logging.info("Login via input password...")
             password.send_keys(inputPassword)
         if isHeroku is True and inputPassword is None:
             try:

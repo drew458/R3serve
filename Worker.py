@@ -196,8 +196,6 @@ def biblioReservationCycle(driver, biblioDay, biblioHour):
         EC.visibility_of_any_elements_located((
             By.XPATH, "//*[contains(text(), 'BIBLIOTECA SCIENTIFICA TECNOLOGICA SEDE CENTRALE - via della Vasca"
                       " Navale, 79-81 - Uniroma3')]")))
-    # i = 0
-    # iMax = len(libraryRows)
 
     # If the user has inserted a day for the library reservation, use it; otherwise reserve the next day from now
     if biblioDay is not None:
