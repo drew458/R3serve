@@ -57,6 +57,13 @@ The program accepts the following parameters when launching:
     -heroku, --heroku            
                                  Run the program in Heroku mode 
                                  (see for login credentials in the environment variables)               [default: False]
+    -D, -d, -day, -libraryday, --libraryday            
+                                 The library day to reserve. Saturday and Sunday are not allowed        [default: None]
+    -hr, -hour, -day, -libraryhour, --libraryhour            
+                                 The library hour to reserve. Insert only the start hour
+                                 (e.g. if the reservation time slot is 14.00-15.00, only insert 14.00 or 14) 
+                                                                                                        [default: None]
+
 
 Example of launching:
 ```
