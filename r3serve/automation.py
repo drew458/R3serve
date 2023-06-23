@@ -19,13 +19,13 @@ def reserveCourse(driver, course_to_reserve):
     time.sleep(3)
 
     # GO TO COURSE RESERVATION LIST
-    driver2 = worker.goToCourseReservationList(driver)
+    driver = worker.goToCourseReservationList(driver)
 
     # CLICK ON THE COURSE
-    driver3 = worker.clickOnCourse(driver2, course_to_reserve)
+    driver = worker.clickOnCourse(driver, course_to_reserve)
 
     # CHECK IF SEATS ARE STILL AVAILABLE
-    table2 = driver3.find_element_by_id("slotListBody")
+    table = driver.find_element_by_id("slotListBody")
 
     # tr[n]/td[m] are row and column of the element in the matrix
     # n parameter in tr[n] depends on the specific lesson, m parameter in td[m] is fixed at 7
@@ -36,11 +36,11 @@ def reserveCourse(driver, course_to_reserve):
         try:
             # TODO: find a way to remove time.sleep(3)
             time.sleep(1.5)
-            remainingSeatsString = table2.find_element_by_xpath(
+            remainingSeatsString = table.find_element_by_xpath(
                 "//*[@id='slotListBody']/tr[" + iString + "]/td[7]").text
         except selenium.common.exceptions.NoSuchElementException:
             print("No more lessons available for this course! I'll continue my mission...")
-            driver3.quit()
+            driver.quit()
             break
         else:
             remainingSeatsInt = int(remainingSeatsString)
@@ -51,7 +51,7 @@ def reserveCourse(driver, course_to_reserve):
                 # tr[n]/td[m] are row and column of the element in the matrix
                 # n parameter in tr[n] depends on the specific lesson, m parameter in td[m] is fixed at 8, that is
                 # the location of calendar icon
-                calendar = driver3.find_element_by_xpath("//*[@id='slotListBody']/tr[" + iString + "]/td[8]")
+                calendar = driver.find_element_by_xpath("//*[@id='slotListBody']/tr[" + iString + "]/td[8]")
                 calendarAttribute = calendar.get_attribute("title")
                 if calendarAttribute == "Annulla la prenotazione per questa erogazione ":
                     print("Course at line " + iString + " already reserved")
@@ -59,13 +59,13 @@ def reserveCourse(driver, course_to_reserve):
                 else:
                     calendar.click()
                     time.sleep(3)
-                    modal = driver3.find_element_by_id("partialQuestionYesNo")
+                    modal = driver.find_element_by_id("partialQuestionYesNo")
                     modal.find_element_by_id("partialQuestionYesNoConfirmButton").click()
                     time.sleep(3)
 
-                if driver3.find_element_by_xpath("//h1[contains(text(), 'Dettagli prenotazione')]").is_displayed():
+                if driver.find_element_by_xpath("//h1[contains(text(), 'Dettagli prenotazione')]").is_displayed():
                     print("Done!\n")
-                    driver3.find_element_by_id("backArrowReservs").click()
+                    driver.find_element_by_id("backArrowReservs").click()
                     continue
                 else:
                     print("This reservation overlaps with another one in the same time slot, "
