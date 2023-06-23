@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-import io_console
+import r3serve.io_console as io_console
 
 
 def goToCourseReservationList(driver):

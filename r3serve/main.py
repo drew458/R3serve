@@ -3,8 +3,8 @@ import logging
 from configparser import ConfigParser
 from threading import Thread
 
-import automation
-import io_console
+import r3serve.automation as automation
+import r3serve.io_console as io_console
 import login
 import worker
 import stats
