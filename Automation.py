@@ -4,9 +4,9 @@ import time
 import schedule
 import selenium
 
-import IOConsole
-import Login
-import Worker
+import io_console
+import login
+import worker
 
 
 def reserveCourse(driver, course_to_reserve):
@@ -19,10 +19,10 @@ def reserveCourse(driver, course_to_reserve):
     time.sleep(3)
 
     # GO TO COURSE RESERVATION LIST
-    driver2 = Worker.goToCourseReservationList(driver)
+    driver2 = worker.goToCourseReservationList(driver)
 
     # CLICK ON THE COURSE
-    driver3 = Worker.clickOnCourse(driver2, course_to_reserve)
+    driver3 = worker.clickOnCourse(driver2, course_to_reserve)
 
     # CHECK IF SEATS ARE STILL AVAILABLE
     table2 = driver3.find_element_by_id("slotListBody")
@@ -83,9 +83,9 @@ def launcher(course_to_reserve, inputUsername, inputPassword, isHeadless, isHero
     :param isLogging: logging mode boolean condition
     """
     results = [None] * 2
-    Login.login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, results)
+    login.login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, results)
     driver = results[0]
-    parsed_course_to_reserve = IOConsole.courseParsing(course_to_reserve)
+    parsed_course_to_reserve = io_console.courseParsing(course_to_reserve)
     reserveCourse(driver, parsed_course_to_reserve)
 
 

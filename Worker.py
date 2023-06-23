@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-import IOConsole
+import io_console
 
 
 def goToCourseReservationList(driver):
@@ -43,14 +43,14 @@ def clickOnCourse(driver, selected_course):
 
     # find the row
     try:
-        course_xpath = IOConsole.composeCourseXPath(selected_course)
+        course_xpath = io_console.composeCourseXPath(selected_course)
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, course_xpath))).click()
         # table.find_element_by_xpath(course_xpath).click()
     except IOError:
         print("No such course found!")
         reserve_another = input("Do you want to insert another course? [Y/n]...\n")
         if reserve_another.casefold() in ("y", "yes", "si", "s"):
-            another_course_name = IOConsole.insertNewCourse()
+            another_course_name = io_console.insertNewCourse()
             reserve(driver, another_course_name)
         else:
             logging.info('Quitting the program...')
@@ -91,7 +91,7 @@ def reserve(driver, selected_course):
             print("No more lessons available for this course")
             reserve_another = input("Do you want to reserve another course? [Y/n]...\n")
             if reserve_another.casefold() in ("y", "yes", "si", "s"):
-                another_course_name = IOConsole.insertNewCourse()
+                another_course_name = io_console.insertNewCourse()
                 reserve(driver, another_course_name)
             else:
                 return

@@ -3,11 +3,11 @@ import logging
 from configparser import ConfigParser
 from threading import Thread
 
-import Automation
-import IOConsole
-import Login
-import Worker
-import Stats
+import automation
+import io_console
+import login
+import worker
+import stats
 
 
 def main():
@@ -79,21 +79,21 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging,
     :param isHeroku: heroku mode boolean condition
     """
     # start the timer for the execution statistics 
-    timer_start = Stats.performanceCounter()
+    timer_start = stats.performanceCounter()
 
     # Initialize loggin format
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
     # Start the login thread
     results = [None] * 2
-    login_thread = Thread(target=Login.login, args=(inputUsername, inputPassword, isHeadless,
+    login_thread = Thread(target=login.login, args=(inputUsername, inputPassword, isHeadless,
                                                     isHeroku, isLogging, results))
     login_thread.start()
 
     # Insert the course
     while True:
         try:
-            selected_course = IOConsole.insertCourse(inputCourse)
+            selected_course = io_console.insertCourse(inputCourse)
         except IOError:
             if inputCourse is not None:
                 print("The course passed as argument does not exist")
@@ -109,11 +109,11 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging,
     driver = results[0]
 
     # Reserve the lesson
-    Worker.reserve(driver, selected_course)
+    worker.reserve(driver, selected_course)
 
     # finish the timer for execution statistics and print result
-    timer_finish = Stats.performanceCounter()
-    Stats.printPerformanceResult(Stats.getResult(timer_start, timer_finish))
+    timer_finish = stats.performanceCounter()
+    stats.printPerformanceResult(stats.getResult(timer_start, timer_finish))
 
     # Quit the program
     logging.info('Quitting the program...')
@@ -136,7 +136,7 @@ def mainAutomatic(inputUsername, inputPassword, inputCourse, isHeadless, isHerok
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
     # Start the automatic reserve thread
-    automatic_reservations = Thread(target=Automation.scheduler, args=(inputUsername, inputPassword,
+    automatic_reservations = Thread(target=automation.scheduler, args=(inputUsername, inputPassword,
                                                                        isHeadless, isHeroku, isLogging))
     automatic_reservations.start()
 
