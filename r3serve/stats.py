@@ -1,6 +1,6 @@
 import time
 
-def performanceCounter():
+def performance_counter():
     return time.perf_counter()
 
 def getResult(start, finish):

@@ -9,7 +9,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result):
+def login(input_username, input_password, is_headless, is_heroku, is_logging, result):
     """
     Performs the login into the website
     :param inputUsername: the website username
@@ -19,7 +19,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
     :param isLogging: logging mode boolean condition
     :param result: the array containing the logged-in driver in position [0]
     """
-    if isLogging is False:
+    if is_logging is False:
         logger = logging.getLogger()
         logger.disabled = True
 
@@ -29,7 +29,7 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
     options = webdriver.ChromeOptions()
     options.add_argument('--log-level=3')
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
-    if isHeadless is True:
+    if is_headless is True:
         options.add_argument('--headless')
 
     if sys.platform.startswith('linux'):
@@ -48,10 +48,10 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
     # variables. If they aren't found in environment variables, then ask for it to the user
     username = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'userName')))
     username.clear()
-    if inputUsername is not None:
+    if input_username is not None:
         logging.info("Log in via input username...")
-        username.send_keys(inputUsername)
-    elif isHeroku is True:
+        username.send_keys(input_username)
+    elif is_heroku is True:
         try:
             pathUsername = os.environ["USERNAME"]
             pathUsernameString = str(pathUsername)
@@ -65,10 +65,10 @@ def login(inputUsername, inputPassword, isHeadless, isHeroku, isLogging, result)
 
     password = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.ID, 'password')))
     password.clear()
-    if inputPassword is not None:
+    if input_password is not None:
         logging.info("Log in via input password...")
-        password.send_keys(inputPassword)
-    elif isHeroku is True:
+        password.send_keys(input_password)
+    elif is_heroku is True:
         try:
             pathPassword = os.environ["PASSWORD"]
             pathPasswordString = str(pathPassword)

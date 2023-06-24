@@ -46,28 +46,28 @@ def main():
         config = ConfigParser(allow_no_value=True)
         config.read('config.ini')
 
-        usernameConfigFile = config.get('main', 'username')
-        passwordConfigFile = config.get('main', 'password')
-        courseConfigFile = config.get('main', 'course')
-        autoModeConfigFile = config.getboolean('main', 'autoMode')
-        headlessModeConfigFile = config.getboolean('main', 'headless')
-        loggingModeConfigFile = config.getboolean('main', 'logging')
-        herokuModeConfigFile = config.getboolean('main', 'heroku')
+        username_config_file = config.get('main', 'username')
+        password_config_file = config.get('main', 'password')
+        course_config_file = config.get('main', 'course')
+        auto_mode_config_file = config.getboolean('main', 'autoMode')
+        headless_mode_config_file = config.getboolean('main', 'headless')
+        logging_mode_config_file = config.getboolean('main', 'logging')
+        heroku_mode_config_file = config.getboolean('main', 'heroku')
 
-        if autoModeConfigFile is True:
-            mainAutomatic(usernameConfigFile, passwordConfigFile, courseConfigFile, headlessModeConfigFile,
-                          herokuModeConfigFile, loggingModeConfigFile)
+        if auto_mode_config_file is True:
+            main_automatic(username_config_file, password_config_file, course_config_file, headless_mode_config_file,
+                          heroku_mode_config_file, logging_mode_config_file)
         else:
-            mainManual(usernameConfigFile, passwordConfigFile, courseConfigFile, headlessModeConfigFile,
-                       loggingModeConfigFile, herokuModeConfigFile)
+            main_manual(username_config_file, password_config_file, course_config_file, headless_mode_config_file,
+                       logging_mode_config_file, heroku_mode_config_file)
     else:
         if args.automatic is True:
-            mainAutomatic(args.username, args.password, args.course, args.headless, args.heroku, args.logging)
+            main_automatic(args.username, args.password, args.course, args.headless, args.heroku, args.logging)
         else:
-            mainManual(args.username, args.password, args.course, args.headless, args.logging, args.heroku)
+            main_manual(args.username, args.password, args.course, args.headless, args.logging, args.heroku)
 
 
-def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging, isHeroku):
+def main_manual(input_username, input_password, input_course, is_headless, is_logging, is_heroku):
     """
     The main function of the Manual Mode. In this mode, the user can insert the course to reserve, or pass it as an
     argument, and the reservation is then made and program exited.
@@ -79,25 +79,25 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging,
     :param isHeroku: heroku mode boolean condition
     """
     # start the timer for the execution statistics 
-    timer_start = stats.performanceCounter()
+    timer_start = stats.performance_counter()
 
     # Initialize loggin format
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
     # Start the login thread
     results = [None] * 2
-    login_thread = Thread(target=login.login, args=(inputUsername, inputPassword, isHeadless,
-                                                    isHeroku, isLogging, results))
+    login_thread = Thread(target=login.login, args=(input_username, input_password, is_headless,
+                                                    is_heroku, is_logging, results))
     login_thread.start()
 
     # Insert the course
     while True:
         try:
-            selected_course = io_console.insertCourse(inputCourse)
+            selected_course = io_console.insert_course(input_course)
         except IOError:
-            if inputCourse is not None:
+            if input_course is not None:
                 print("The course passed as argument does not exist")
-                inputCourse = None
+                input_course = None
                 continue
             else:
                 print("No matching course for what you inserted.")
@@ -112,7 +112,7 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging,
     worker.reserve(driver, selected_course)
 
     # finish the timer for execution statistics and print result
-    timer_finish = stats.performanceCounter()
+    timer_finish = stats.performance_counter()
     stats.printPerformanceResult(stats.getResult(timer_start, timer_finish))
 
     # Quit the program
@@ -121,7 +121,7 @@ def mainManual(inputUsername, inputPassword, inputCourse, isHeadless, isLogging,
     logging.info("Driver thrown away, I'm gonna die")
 
 
-def mainAutomatic(inputUsername, inputPassword, inputCourse, isHeadless, isHeroku, isLogging):
+def main_automatic(input_username, input_password, input_course, is_headless, is_heroku, is_logging):
     """
     The main function of the Automatic Mode. In this mode, course reservations are performed automatically on a specific
     date and time (like Friday at 08:00). The course to reserve is already specified in the schedule() function
@@ -136,8 +136,8 @@ def mainAutomatic(inputUsername, inputPassword, inputCourse, isHeadless, isHerok
     logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
     # Start the automatic reserve thread
-    automatic_reservations = Thread(target=automation.scheduler, args=(inputUsername, inputPassword,
-                                                                       isHeadless, isHeroku, isLogging))
+    automatic_reservations = Thread(target=automation.scheduler, args=(input_username, input_password,
+                                                                       is_headless, is_heroku, is_logging))
     automatic_reservations.start()
 
 

@@ -3,7 +3,7 @@ import logging
 from static import courses
 
 
-def insertCourse(input_course):
+def insert_course(input_course):
     """
     Determines the course, passed as program argument or requested as user input
     :param: the course passed as an argumente when launching the program
