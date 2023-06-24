@@ -141,6 +141,5 @@ def main_automatic(input_username, input_password, input_course, is_headless, is
     automatic_reservations.start()
 
 
-# Press the green button on the left side to run the script
 if __name__ == '__main__':
     main()
